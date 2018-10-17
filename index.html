@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>automat configurator</title>
+  <meta name="description" content="">
+  <script src="webmidi.js"></script>
+  <script src="main.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1 id="connected">automat not connected, please accept web midi and connect automat</h1>
+
+  <button onclick="connect()">reconnect</button>
+
+  <br><br><br><br>
+
+  <p>
+    <h1>config</h1>
+    <button onclick="changeProgram(0)">1.1.0 quad velocity (0)</button>
+    <button onclick="changeProgram(1)">single PWM velocity (1)</button>
+    <button onclick="changeProgram(2)">repeat PWM velocity (2)</button>
+    <button onclick="changeProgram(3)">no Velocity (3)</button>
+  </p>
+  <br><br><br><br>
+  <p>
+
+    <h1>play</h1>
+
+    <button onclick="playNote(2000,1)">play 2s note (velo 1)</button>
+
+    <button onclick="playNote(2000,127)">play 2s note (velo 127)</button>
+  </p>
+</body>
+</html>
