@@ -19,19 +19,30 @@
   <br><br><br><br>
 
   <p>
-    <h1>config</h1>
-    <button onclick="changeProgram(0)">1.1.0 quad velocity (0)</button>
-    <button onclick="changeProgram(1)">single PWM velocity (1)</button>
-    <button onclick="changeProgram(2)">repeat PWM velocity (2)</button>
-    <button onclick="changeProgram(3)">no Velocity (3)</button>
+  <h1>Config</h1>
+      <button onclick="readSysex()">Read config</button>
+      <button id="save1" disabled onclick="writeSysex(currentConfig)">Write config</button>
+      <button id="save2" disabled onclick="writeSysexConfigToFile(currentConfig)">Save to sysex file</button>
+  </p>
+  <p id="sysex_config">
+  </p>
+  <br><br><br><br>
+  <p>
+    <h1>program change</h1>
+    <button onclick="changeProgram(1)">no Velocity (0)</button>
+    <button onclick="changeProgram(2)">1.1.0 quad velocity (1)</button>
+    <button onclick="changeProgram(3)">1.2.0 inverse quad velocity (2)</button>
+    <button onclick="changeProgram(4)">PWM velocity (3)</button>
+    <button onclick="changeProgram(5)">continous PWM velocity (4)</button>
+    <button onclick="changeProgram(6)">Hum program (modwheel) (5)</button>
   </p>
   <br><br><br><br>
   <p>
 
     <h1>play</h1>
 
-    <button onclick="playNote(2000,1)">play 2s note (velo 1)</button>
-
+    <button onclick="playNote(2000,10)">play 2s note (velo 10)</button>
+    <button onclick="playNote(2000,64)">play 2s note (velo 64)</button>
     <button onclick="playNote(2000,127)">play 2s note (velo 127)</button>
   </p>
 </body>
