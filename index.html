@@ -9,6 +9,11 @@
   <script src="webmidi.js"></script>
   <script src="main.js"></script>
   <link rel="stylesheet" href="style.css">
+  <style type="text/css">
+      form {
+          text-align: right;
+      }
+  </style>
 </head>
 
 <body>
@@ -21,21 +26,107 @@
   <p>
   <h1>Config</h1>
       <button onclick="readSysex()">Read config</button>
-      <button id="save1" disabled onclick="writeSysex(currentConfig)">Write config</button>
-      <button id="save2" disabled onclick="writeSysexConfigToFile(currentConfig)">Save to sysex file</button>
+      <button id="save1" disabled onclick="writeSysex(getConfigDataFromForm())">Write config</button>
+      <button id="save2" onclick="writeSysexConfigToFile(getConfigDataFromForm())">Save to sysex file</button>
   </p>
   <p id="sysex_config">
   </p>
+  <form>
+      <table style="width:100%;margin-bottom:50px;"" align="left">
+              <tr>
+                  <th>Pin</th>
+                  <th>Midi Channel</th>
+                  <th>Note</th>
+                  <th>Velocity Program</th>
+                  <th width="20%"></th>
+              </tr>
+              <tr>
+                  <td>1</td>
+                  <td><select id="m1"></td>
+                  <td><select id="n1"></td>
+                  <td><select id="v1" ></td>
+              </tr>
+              <tr>
+                  <td>2</td>
+                  <td><select id="m2"></td>
+                  <td><select id="n2"></td>
+                  <td><select id="v2" ></td>
+              </tr>
+              <tr>
+                  <td>3</td>
+                  <td><select id="m3"></td>
+                  <td><select id="n3"></td>
+                  <td><select id="v3" ></td>
+              </tr>
+              <tr>
+                  <td>4</td>
+                  <td><select id="m4"></td>
+                  <td><select id="n4"></td>
+                  <td><select id="v4" ></td>
+              </tr>
+              <tr>
+                  <td>5</td>
+                  <td><select id="m5"></td>
+                  <td><select id="n5"></td>
+                  <td><select id="v5" ></td>
+              </tr>
+              <tr>
+                  <td>6</td>
+                  <td><select id="m6"></td>
+                  <td><select id="n6"></td>
+                  <td><select id="v6" ></td>
+              </tr>
+              <tr>
+                  <td>7</td>
+                  <td><select id="m7"></td>
+                  <td><select id="n7"></td>
+                  <td><select id="v7" ></td>
+              </tr>
+              <tr>
+                  <td>8</td>
+                  <td><select id="m8"></td>
+                  <td><select id="n8"></td>
+                  <td><select id="v8" ></td>
+              </tr>
+              <tr>
+                  <td>9</td>
+                  <td><select id="m9"></td>
+                  <td><select id="n9"></td>
+                  <td><select id="v9" ></td>
+              </tr>
+              <tr>
+                  <td>10</td>
+                  <td><select id="m10"></td>
+                  <td><select id="n10"></td>
+                  <td><select id="v10" ></td>
+              </tr>
+              <tr>
+                  <td>11</td>
+                  <td><select id="m11"></td>
+                  <td><select id="n11"></td>
+                  <td><select id="v11" ></td>
+              </tr>
+              <tr>
+                  <td>12</td>
+                  <td><select id="m12"></td>
+                  <td><select id="n12"></td>
+                  <td><select id="v12" ></td>
+              </tr>
+          </table>
+  </form>
   <br><br><br><br>
-  <p>
-    <h1>program change</h1>
-    <button onclick="changeProgram(1)">no Velocity (0)</button>
-    <button onclick="changeProgram(2)">1.1.0 quad velocity (1)</button>
-    <button onclick="changeProgram(3)">1.2.0 inverse quad velocity (2)</button>
-    <button onclick="changeProgram(4)">PWM velocity (3)</button>
-    <button onclick="changeProgram(5)">continous PWM velocity (4)</button>
-    <button onclick="changeProgram(6)">Hum program (modwheel) (5)</button>
-  </p>
+
+
+<p>
+<h1>program change</h1>
+<button onclick="changeProgram(0)">no Velocity (1)</button>
+<button onclick="changeProgram(1)">1.1.0 quad velocity (2)</button>
+<button onclick="changeProgram(2)">1.2.0 inverse quad velocity (3)</button>
+<button onclick="changeProgram(3)">PWM velocity (4)</button>
+<button onclick="changeProgram(4)">continous PWM velocity (5)</button>
+<button onclick="changeProgram(5)">Hum program (modwheel) (6)</button>
+</p>
+
   <br><br><br><br>
   <p>
 
@@ -43,6 +134,7 @@
 
     <button onclick="playNote(2000,10)">play 2s note (velo 10)</button>
     <button onclick="playNote(2000,64)">play 2s note (velo 64)</button>
+    <button onclick="playNote(2000,96)">play 2s note (velo 96)</button>
     <button onclick="playNote(2000,127)">play 2s note (velo 127)</button>
   </p>
 </body>
