@@ -163,10 +163,19 @@ function playNote(dur, velo){
 function sysexListener(e) {
     console.log(e);
     if (e.data[1] == 0 && e.data[2] == 0x64 && e.data[3] == 0x41 &&
-        e.data[4] == 0x64 && e.data[5] == 0x41) {
-        showSysexConfig(e.data.slice(6, -1));
-        var b1 = document.getElementById("save1")
-        b1.disabled = false
+        e.data[4] == 0x64) {
+        if (e.data[5] == 0x41) {
+            showSysexConfig(e.data.slice(6, -1));
+            var b1 = document.getElementById("save1")
+            b1.disabled = false
+        } else if (e.data[5] == 0x56) {
+            var versMajor = e.data[6];
+            var versMinor = e.data[7] * 256 + e.data[8];
+            var versFix = e.data[9];
+            var version = versMajor + '.' + versMinor + '.' + versFix;
+            var pField = document.getElementById("sysex_config");
+            pField.innerText = "Version is: " + version;
+        }
     }
 }
 
@@ -176,6 +185,14 @@ function readSysex(){
     }
 
     output.sendSysex([0, 0x64, 0x41] ,[0x64,0x41,0x67,0x65,0x74,0x63]);
+}
+
+function readVersion(){
+    if (!input.hasListener('sysex', "all", sysexListener)) {
+        input.addListener('sysex', "all", sysexListener);
+    }
+    
+    output.sendSysex([0, 0x64, 0x41] ,[0x64,0x41,0x67,0x65,0x74,0x76]);
 }
 
 function showSysexConfig(configData){

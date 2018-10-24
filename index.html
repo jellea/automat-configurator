@@ -20,6 +20,7 @@
 
   <p>
   <h1>Config</h1>
+      <button onclick="readVersion()">Read version</button>
       <button onclick="readSysex()">Read config</button>
       <button id="save1" disabled onclick="writeSysex(getConfigDataFromForm())">Write config</button>
       <button id="save2" onclick="writeSysexConfigToFile(getConfigDataFromForm())">Save to sysex file</button>
