@@ -4,10 +4,10 @@ var currentConfig = undefined
 
 
 document.addEventListener('DOMContentLoaded', function(){
-        
+
            for (var i = 1; i <= 12; ++i) {
                   var list1 = document.getElementById('m' + i);
-                  
+
                   list1.options[0] = new Option('OMNI', '0');
                   list1.options[1] = new Option('1', '1');
                   list1.options[2] = new Option('2', '2');
@@ -124,6 +124,21 @@ document.addEventListener('DOMContentLoaded', function(){
                   list3.options[86] = new Option('A#7', '106');
                   list3.options[87] = new Option('B7',  '107');
                   list3.options[88] = new Option('C8',  '108');
+
+                  var list4 = document.getElementById('d' + i);
+                  list4.options[0] = new Option('5ms', '0');
+                  list4.options[1] = new Option('6ms', '1');
+                  list4.options[2] = new Option('7ms', '2');
+                  list4.options[3] = new Option('8ms', '3');
+                  list4.options[4] = new Option('9ms', '4');
+                  list4.options[5] = new Option('10ms', '5');
+                  list4.options[6] = new Option('11ms', '6');
+                  list4.options[7] = new Option('12ms', '7');
+                  list4.options[8] = new Option('13ms', '8');
+                  list4.options[9] = new Option('14ms', '9');
+                  list4.options[10] = new Option('15ms', '10');
+                  list4.options[11] = new Option('16ms', '11');
+
             }
                           });
 
@@ -135,7 +150,7 @@ function connect (){
     if (!err) {
       output = WebMidi.getOutputByName("dadamachines automat");
       input = WebMidi.getInputByName("dadamachines automat");
-                 
+
       if (output && input) {
         conne.innerText = "automat connected"
         conne.style.color = "green"
@@ -191,7 +206,7 @@ function readVersion(){
     if (!input.hasListener('sysex', "all", sysexListener)) {
         input.addListener('sysex', "all", sysexListener);
     }
-    
+
     output.sendSysex([0, 0x64, 0x41] ,[0x64,0x41,0x67,0x65,0x74,0x76]);
 }
 
@@ -201,7 +216,7 @@ function showSysexConfig(configData){
     var displayData = "";
     var nvData = undefined;
     var veloData = undefined;
-    
+
     if(configData[0] == 0x70 && configData[1] == 0x69 &&
         configData[2] == 0x6E && configData[3] == 0x73) {
         nvData = configData.slice(4, 28);
@@ -211,7 +226,7 @@ function showSysexConfig(configData){
        configData[38] == 0x6C && configData[39] == 0x6F) {
         veloData = configData.slice(40, 52);
     }
-    
+
     if (nvData && veloData) {
         var j;
         for(var i = 0; i < 12; i++) {
@@ -221,23 +236,23 @@ function showSysexConfig(configData){
             displayData += "    note: " + nvData[j + 1];
             displayData += "    program: " + veloData[i];
             displayData += "\r\n";
-            
+
             var list1 = document.getElementById('m' + (i + 1));
             var list2 = document.getElementById('v' + (i + 1));
             var note1 = document.getElementById('n' + (i + 1));
-            
+
             list1.value = nvData[j];
             note1.value = nvData[j + 1];
             list2.value = veloData[i];
         }
     }
-    
+
     pField.innerText = displayData;
 }
 
 function getConfigDataFromForm() {
     var configData = new Uint8Array(54);
-    
+
     var header1 = new Uint8Array([0x70,0x69,0x6E,0x73]);
     var filler = new Uint8Array([0,0,0,0,0,0,0,0]);
     var header2 = new Uint8Array([0x76,0x65,0x6C,0x6F]);
@@ -245,7 +260,7 @@ function getConfigDataFromForm() {
     configData.set(header1);
     configData.set(filler, 28);
     configData.set(header2, 36);
-    
+
     var j;
     for(var i = 0; i < 12; i++) {
         var list1 = document.getElementById('m' + (i + 1));
@@ -268,7 +283,7 @@ function writeSysex(configData){
         var arrayOut = new Uint8Array(preArray.length + configData.length);
         arrayOut.set(preArray);
         arrayOut.set(configData, preArray.length);
-        
+
         output.sendSysex([0, 0x64, 0x41], Array.from(arrayOut));
     }
 }
