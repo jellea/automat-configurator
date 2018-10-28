@@ -43,9 +43,17 @@ form {
   font-style:   normal;
   font-weight:  400;
 }
-
+hr {
+  border-top: 0;
+  border-bottom: 3px solid #121212;
+  margin: 27px 0;
+}
 button, .button, a.btn {
   background-color: #121212;
+    // never use solid background colors, generate noise texture here http://www.cssmatic.com/noise-texture
+    //background-image: url('background-url: http://api.thumbr.it/whitenoise-50x50.png?background=111111ff&noise=222222&density=80&opacity=15');
+  background-image: url('images/dadamachines/img-noise-50x50.png');
+  background-repeat: repeat;
   border-radius: 0px;
   border: 3px solid #121212;
   color: #fff;
@@ -55,7 +63,8 @@ button, .button, a.btn {
   font-size: 18px;
   font-weight: 600;
   line-height: 1;
-  padding: 0.75em 1em;
+  margin-top: 3px;
+  padding: 0.75em 1em 0.5em 1em;
   text-decoration: none;
   user-select: none;
   vertical-align: middle;
@@ -67,10 +76,18 @@ button.bb {
   border: 3px solid #121212;
   color: #121212;
 }
+button.trigger {
+  font-size: 12px;
+  padding: 6px;
+}
 
 header {
   background-color: #121212;
   padding: 0 27px;
+   // never use solid background colors, generate noise texture here http://www.cssmatic.com/noise-texture
+  //background-image: url('background-url: http://api.thumbr.it/whitenoise-50x50.png?background=111111ff&noise=222222&density=80&opacity=15');
+  background-image: url('images/dadamachines/img-noise-50x50.png');
+  background-repeat: repeat;
 }
 main {
   padding: 0 27px;
@@ -83,7 +100,7 @@ main {
   list-style:none;
   margin:0;
   padding:0;
-  padding-top: 18px;
+  padding-top: 29px;
   text-align:center;
   display: block;
 }
@@ -126,4 +143,28 @@ main {
   fill: white;
 }
 
+table.config__table {
+  border: 3px solid #121212;
+}
+table.config__table th {
+  text-align: left;
+  padding-top: 0px;
+  padding-left: 0px;
+  background-color: #121212;
+  color: #fff;
+  padding: 3px;
+}
 
+table.config__table td {
+  text-align: left;
+  background-color: #f3f3f3;
+  border-bottom: 3px solid #fff;
+  border-right: 3px solid #fff;
+  padding: 0px;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+#sysex_config {
+  color: red;
+}

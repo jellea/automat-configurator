@@ -153,7 +153,7 @@ function connect (){
 
       if (output && input) {
         conne.innerText = "automat connected"
-        conne.style.color = "green"
+        conne.style.color = "#47b535"
       } else {
         conne.innerText = "could not find automat"
         conne.style.color = "red"

@@ -29,130 +29,142 @@
     <h3 id="connected">automat not connected, please accept web midi and connect automat</h3>
     <p>
       <button onclick="connect()">Reconnect</button>
-      <button class="bb" onclick="readVersion()">Read version</button>
-      <button class="bb" onclick="readSysex()">Read config</button>
-      <button class="bb" id="save1" disabled onclick="writeSysex(getConfigDataFromForm())">Write config</button>
-      <button class="bb" id="save2" onclick="writeSysexConfigToFile(getConfigDataFromForm())">Save to sysex file</button>
     </p>
+    <hr>
+    <h2>output settings</h2>
+    <p>Change the behavior of your automat here. Upload settings with "Write config".</p>
+    <button class="bb" onclick="readVersion()">Read version</button>
+    <button class="bb" onclick="readSysex()">Read config</button>
+    <button class="bb" id="save1" disabled onclick="writeSysex(getConfigDataFromForm())">Write config</button>
+    <button class="bb" id="save2" onclick="writeSysexConfigToFile(getConfigDataFromForm())">Save to sysex file</button>
     <p id="sysex_config">
     </p>
     <form>
-        <table style="width:100%;margin-bottom:50px;" align="left">
+        <table class="config__table" style="width:100%; margin-bottom:50px;" align="left" cellpadding="0" cellspacing="0">
                 <tr>
                     <th>Output</th>
                     <th>Output Mode</th>
                     <th>Duration</th>
                     <th>Midi Channel</th>
                     <th>Note</th>
-                    <th width="20%"></th>
+                    <th>Test</th>
                 </tr>
                 <tr>
-                    <td>1</td>
+                    <td><b>1</b></td>
                     <td><select id="v1" ></td>
                     <td><select id="d1" ></td>
                     <td><select id="m1"></td>
                     <td><select id="n1"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>2</td>
+                    <td><b>2</b></td>
                     <td><select id="v2" ></td>
                     <td><select id="d2" ></td>
                     <td><select id="m2"></td>
                     <td><select id="n2"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>3</td>
+                    <td><b>3</b></td>
                     <td><select id="v3" ></td>
                     <td><select id="d3" ></td>
                     <td><select id="m3"></td>
                     <td><select id="n3"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>4</td>
+                    <td><b>4</b></td>
                     <td><select id="v4" ></td>
                     <td><select id="d4" ></td>
                     <td><select id="m4"></td>
                     <td><select id="n4"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>5</td>
+                    <td><b>5</b></td>
                     <td><select id="v5" ></td>
                     <td><select id="d5" ></td>
                     <td><select id="m5"></td>
                     <td><select id="n5"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>6</td>
+                    <td><b>6</b></td>
                     <td><select id="v6" ></td>
                     <td><select id="d6" ></td>
                     <td><select id="m6"></td>
                     <td><select id="n6"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>7</td>
+                    <td><b>7</b></td>
                     <td><select id="v7" ></td>
                     <td><select id="d7" ></td>
                     <td><select id="m7"></td>
                     <td><select id="n7"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>8</td>
+                    <td><b>8</b></td>
                     <td><select id="v8" ></td>
                     <td><select id="d8" ></td>
                     <td><select id="m8"></td>
                     <td><select id="n8"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>9</td>
+                    <td><b>9</b></td>
                     <td><select id="v9" ></td>
                     <td><select id="d9" ></td>
                     <td><select id="m9"></td>
                     <td><select id="n9"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>10</td>
+                    <td><b>10</b></td>
                     <td><select id="v10" ></td>
                     <td><select id="d10" ></td>
                     <td><select id="m10"></td>
                     <td><select id="n10"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>11</td>
+                    <td><b>11</b></td>
                     <td><select id="v11" ></td>
                     <td><select id="d11" ></td>
                     <td><select id="m11"></td>
                     <td><select id="n11"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
                 <tr>
-                    <td>12</td>
+                    <td><b>12</b></td>
                     <td><select id="v12" ></td>
                     <td><select id="d12" ></td>
                     <td><select id="m12"></td>
                     <td><select id="n12"></td>
+                    <td><button class="trigger">test</button></td>
                 </tr>
             </table>
     </form>
-
+  <hr>
   <p>
-  <h1>program change</h1>
-  <button onclick="changeProgram(0)">no Velocity (1)</button>
-  <button onclick="changeProgram(1)">1.1.0 quad velocity (2)</button>
-  <button onclick="changeProgram(2)">1.2.0 inverse quad velocity (3)</button>
-  <button onclick="changeProgram(3)">PWM velocity (4)</button>
-  <button onclick="changeProgram(4)">continous PWM velocity (5)</button>
-  <button onclick="changeProgram(5)">Hum program (modwheel) (6)</button>
+    <h2>program change</h2>
+    <button onclick="changeProgram(0)">no Velocity (1)</button>
+    <button onclick="changeProgram(1)">1.1.0 quad velocity (2)</button>
+    <button onclick="changeProgram(2)">1.2.0 inverse quad velocity (3)</button>
+    <button onclick="changeProgram(3)">PWM velocity (4)</button>
+    <button onclick="changeProgram(4)">continous PWM velocity (5)</button>
+    <button onclick="changeProgram(5)">Hum program (modwheel) (6)</button>
   </p>
-
-    <br><br><br><br>
-    <p>
-
-      <h1>play</h1>
-
-      <button onclick="playNote(2000,10)">play 2s note (velo 10)</button>
-      <button onclick="playNote(2000,64)">play 2s note (velo 64)</button>
-      <button onclick="playNote(2000,96)">play 2s note (velo 96)</button>
-      <button onclick="playNote(2000,127)">play 2s note (velo 127)</button>
-    </p>
+<hr>
+  <p>
+    <h2>play</h2>
+    <button onclick="playNote(2000,10)">play 2s note (velo 10)</button>
+    <button onclick="playNote(2000,64)">play 2s note (velo 64)</button>
+    <button onclick="playNote(2000,96)">play 2s note (velo 96)</button>
+    <button onclick="playNote(2000,127)">play 2s note (velo 127)</button>
+  </p>
 
   </main>
 </body>
