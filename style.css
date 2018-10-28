@@ -79,6 +79,7 @@ button.bb {
 button.trigger {
   font-size: 12px;
   padding: 6px;
+  text-transform: uppercase;
 }
 button:hover {
   background-color: blue;
