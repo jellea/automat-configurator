@@ -230,10 +230,9 @@ function showSysexConfig(configData){
     if (nvData && veloData) {
         var j;
         for(var i = 0; i < 12; i++) {
-            j = i * 2;
             displayData += "pin: " + (i + 1);
-            displayData += "    channel: " + nvData[j];
-            displayData += "    note: " + nvData[j + 1];
+            displayData += "    channel: " + nvData[i];
+            displayData += "    note: " + nvData[i + 12];
             displayData += "    program: " + veloData[i];
             displayData += "\r\n";
 
@@ -241,8 +240,8 @@ function showSysexConfig(configData){
             var list2 = document.getElementById('v' + (i + 1));
             var note1 = document.getElementById('n' + (i + 1));
 
-            list1.value = nvData[j];
-            note1.value = nvData[j + 1];
+            list1.value = nvData[i];
+            note1.value = nvData[i + 12];
             list2.value = veloData[i];
         }
     }
@@ -267,9 +266,9 @@ function getConfigDataFromForm() {
         var list2 = document.getElementById('v' + (i + 1));
         var note1 = document.getElementById('n' + (i + 1));
 
-        j = (i * 2) + 4;
+        j = i + 4;
         configData[j] = list1.value;
-        configData[j + 1] = note1.value;
+        configData[j + 12] = note1.value;
         j = i + 40;
         configData[j] = list2.value;
     }
