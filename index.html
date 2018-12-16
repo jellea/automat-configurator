@@ -38,9 +38,14 @@
     <button class="bb" onclick="readSysex()">Read config</button>
     <button class="bb" id="save1" disabled onclick="writeSysex(getConfigDataFromForm())">Write config</button>
     <button class="bb" id="save2" onclick="writeSysexConfigToFile(getConfigDataFromForm())">Save to sysex file</button>
-    <p id="sysex_config">
+    <button class="bb" onclick="readSysexConfigFromFile()">Read from sysex file</button>
+    
+    <input type="file" id="fileElem" single accept=".syx" style="display:none" onchange="readSysexFile(this.files)">
+        
+    <p id="version_config">
+    <p id="sysex_config" hidden=true>
     </p>
-    <form>
+<!--    <form>  -->
         <table class="config__table" style="width:100%; margin-bottom:50px;" align="left" cellpadding="0" cellspacing="0">
                 <tr>
                     <th>Output</th>
@@ -52,102 +57,113 @@
                 </tr>
                 <tr>
                     <td><b>1</b></td>
-                    <td><select id="v1" ></td>
+                    <td><select id="v1" onchange="outputModeSanityCheck()" ></td>
                     <td><select id="d1" ></td>
                     <td><select id="m1"></td>
                     <td><select id="n1"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(1)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>2</b></td>
-                    <td><select id="v2" ></td>
+                    <td><select id="v2" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d2" ></td>
                     <td><select id="m2"></td>
                     <td><select id="n2"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(2)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>3</b></td>
-                    <td><select id="v3" ></td>
+                    <td><select id="v3" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d3" ></td>
                     <td><select id="m3"></td>
                     <td><select id="n3"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(3)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>4</b></td>
-                    <td><select id="v4" ></td>
+                    <td><select id="v4" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d4" ></td>
                     <td><select id="m4"></td>
                     <td><select id="n4"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(4)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>5</b></td>
-                    <td><select id="v5" ></td>
+                    <td><select id="v5" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d5" ></td>
                     <td><select id="m5"></td>
                     <td><select id="n5"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(5)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>6</b></td>
-                    <td><select id="v6" ></td>
+                    <td><select id="v6" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d6" ></td>
                     <td><select id="m6"></td>
                     <td><select id="n6"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(6)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>7</b></td>
-                    <td><select id="v7" ></td>
+                    <td><select id="v7" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d7" ></td>
                     <td><select id="m7"></td>
                     <td><select id="n7"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(7)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>8</b></td>
-                    <td><select id="v8" ></td>
+                    <td><select id="v8" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d8" ></td>
                     <td><select id="m8"></td>
                     <td><select id="n8"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(8)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>9</b></td>
-                    <td><select id="v9" ></td>
+                    <td><select id="v9" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d9" ></td>
                     <td><select id="m9"></td>
                     <td><select id="n9"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(9)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>10</b></td>
-                    <td><select id="v10" ></td>
+                    <td><select id="v10" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d10" ></td>
                     <td><select id="m10"></td>
                     <td><select id="n10"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(10)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>11</b></td>
-                    <td><select id="v11" ></td>
+                    <td><select id="v11" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d11" ></td>
                     <td><select id="m11"></td>
                     <td><select id="n11"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(11)">test</button></td>
                 </tr>
                 <tr>
                     <td><b>12</b></td>
-                    <td><select id="v12" ></td>
+                    <td><select id="v12" onchange="outputModeSanityCheck()"></td>
                     <td><select id="d12" ></td>
                     <td><select id="m12"></td>
                     <td><select id="n12"></td>
-                    <td><button class="trigger">test</button></td>
+                    <td><button class="trigger" onclick="testNode(12)">test</button></td>
                 </tr>
             </table>
-    </form>
+<!--    </form>  -->
+  <hr>
+  <p>
+  <h2>test settings</h2>
+     Velocity
+     <select id="tv">
+         <option value="10">10</option>
+         <option value="64">64</option>
+         <option value="96">96</option>
+         <option value="127" selected="true">127</option>
+     </select>
+  </p>
   <hr>
   <p>
     <h2>program change</h2>
@@ -157,9 +173,10 @@
     <button onclick="changeProgram(3)">PWM velocity (4)</button>
     <button onclick="changeProgram(4)">continous PWM velocity (5)</button>
     <button onclick="changeProgram(5)">Hum program (modwheel) (6)</button>
+    <button onclick="changeProgram(6)">1.4.0 Fixed Duration (7)</button>
   </p>
 <hr>
-  <p>
+<!--  <p>
     <h2>play</h2>
     <button onclick="playNote(2000,10)">play 2s note (velo 10)</button>
     <button onclick="playNote(2000,64)">play 2s note (velo 64)</button>
@@ -167,6 +184,7 @@
     <button onclick="playNote(2000,127)">play 2s note (velo 127)</button>
   </p>
 <hr>
+ -->
 <p>
   <h2>credits</h2>
 Firmware and configuration tool development with great support of the dadamachines community.</br> Thanks to <a href="https://github.com/lefty71" target="_blank">Justin Pedro</a> and <a href="https://github.com/jellea" target="_blank">Jelle Akkerman</a>

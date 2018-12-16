@@ -28,11 +28,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
                   var list2 = document.getElementById('v' + i);
                   list2.options[0] = new Option('On/Off', '0');
-                  list2.options[1] = new Option('Quad Velocity', '1');
-                  list2.options[2] = new Option('Inverse Quad Velocity', '2');
-                  list2.options[3] = new Option('PWM Velocity', '3');
-                  list2.options[4] = new Option('Continous PWM', '4');
-                  list2.options[5] = new Option('Hum with controls', '5');
+                  list2.options[1] = new Option('Fixed Duration', '6');
+                  list2.options[2] = new Option('Quad Velocity', '1');
+                  list2.options[3] = new Option('Inverse Quad Velocity', '2');
+                  list2.options[4] = new Option('PWM Velocity', '3');
+                  list2.options[5] = new Option('Continous PWM', '4');
+                  list2.options[6] = new Option('Hum with controls', '5');
 
                   var list3 = document.getElementById('n' + i);
                   list3.options[0] = new Option('Not Set', '0');
@@ -222,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function(){
                   list4.options[54] = new Option('110ms', '110');
                   list4.options[55] = new Option('115ms', '115');
                   list4.options[56] = new Option('120ms', '120');
+                  list4.disabled = true;
 
             }
                           });
@@ -276,7 +278,7 @@ function sysexListener(e) {
             var versMinor = e.data[7] * 256 + e.data[8];
             var versFix = e.data[9];
             var version = versMajor + '.' + versMinor + '.' + versFix;
-            var pField = document.getElementById("sysex_config");
+            var pField = document.getElementById("version_config");
             pField.innerText = "Version is: " + version;
         }
     }
@@ -327,6 +329,7 @@ function showSysexConfig(configData){
             var list1 = document.getElementById('m' + (i + 1));
             var list2 = document.getElementById('v' + (i + 1));
             var note1 = document.getElementById('n' + (i + 1));
+            var dur1  = document.getElementById('d' + (i + 1));
 
             list1.value = nvData[i];
             note1.value = nvData[i + 12];
@@ -334,7 +337,40 @@ function showSysexConfig(configData){
         }
     }
 
+    outputModeSanityCheck();
     pField.innerText = displayData;
+}
+
+function outputModeSanityCheck() {
+    for(var i = 0; i < 12; i++) {
+        var list1 = document.getElementById('m' + (i + 1));
+        var list2 = document.getElementById('v' + (i + 1));
+        var note1 = document.getElementById('n' + (i + 1));
+        var dur1  = document.getElementById('d' + (i + 1));
+        
+        if(list2.value == '5') {
+            // this is for hum mode
+            note1.disabled = true;
+            dur1.disabled = true;
+            list1.options[0].disabled = true;
+            note1.value = '0';
+            dur1.value = '0';
+            if(list1.value == '0') {
+                list1.value = '1';
+            }
+        } else if (list2.value == '6') {
+            // this is for fixed duration mode
+            dur1.disabled = false;
+            note1.disabled = false;
+            list1.options[0].disabled = false;
+            dur1.value = '40';
+        } else {
+            note1.disabled = false;
+            dur1.disabled = true;
+            list1.options[0].disabled = false;
+            dur1.value = '0';
+        }
+    }
 }
 
 function getConfigDataFromForm() {
@@ -403,4 +439,50 @@ function writeSysexConfigToFile(configData){
     }
 }
 
+function readSysexConfigFromFile() {
+    var fileElem = document.getElementById("fileElem");
+    fileElem.click();
+}
+
+function readSysexFile(e) {
+    var file = e[0];
+    if (!file) {
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var contents = e.target.result;
+        showSysexConfig(new Uint8Array(contents.slice(6, -1)));
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+var warningIssued = false;
+
+function testNode(index) {
+    if (!warningIssued) {
+        alert("Please note, test mode only works with settings saved on the automat");
+        warningIssued = true;
+    }
+    var list1 = document.getElementById('m' + index);
+    var note1 = document.getElementById('n' + index);
+    var mode1 = document.getElementById('v' + index);
+    var tv = document.getElementById('tv');
+    
+    var channel = 1;
+    if (list1.value != '0') {
+        channel = list1.value;
+    }
+    
+    var note = note1.value;
+    
+    if (mode1.value == '5') {
+        // set an arbitrary note for hum mode
+        note = '43'
+    }
+    
+    if(note != '0') {
+        output.playNote(note, channel, {duration: 2000, rawVelocity:true, velocity: tv.value});
+    }
+}
 
