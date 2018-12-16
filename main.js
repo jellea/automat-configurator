@@ -129,6 +129,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 function connect (){
+  if (WebMidi.enabled) {
+    WebMidi.disable();
+  }
+    
   WebMidi.enable(function (err) {
     var conne = document.getElementById("connected")
 
