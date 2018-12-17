@@ -24,10 +24,10 @@ form {
 
 @font-face {
   font-family: 'Lelo-Bold';
-  src: url('assets/fonts/Lelo-Bold.eot'); /* IE9 Compat Modes */
-  src: url('assets/fonts/Lelo-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('assets/fonts/Lelo-Bold.woff') format('woff'), /* Modern Browsers */
-       url('assets/fonts/Lelo-Bold.ttf')  format('truetype'); /* Safari, Android, iOS */
+  src: url('fonts/Lelo-Bold.eot'); /* IE9 Compat Modes */
+  src: url('fonts/Lelo-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/Lelo-Bold.woff') format('woff'), /* Modern Browsers */
+       url('fonts/Lelo-Bold.ttf')  format('truetype'); /* Safari, Android, iOS */
 
   font-style:   normal;
   font-weight:  700;
@@ -35,10 +35,10 @@ form {
 
 @font-face {
   font-family: 'Lelo-Regular';
-  src: url('assets/fonts/Lelo-Regular.eot'); /* IE9 Compat Modes */
-  src: url('assets/fonts/Lelo-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('assets/fonts/Lelo-Regular.woff') format('woff'), /* Modern Browsers */
-       url('assets/fonts/Lelo-Regular.ttf')  format('truetype'); /* Safari, Android, iOS */
+  src: url('fonts/Lelo-Regular.eot'); /* IE9 Compat Modes */
+  src: url('fonts/Lelo-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/Lelo-Regular.woff') format('woff'), /* Modern Browsers */
+       url('fonts/Lelo-Regular.ttf')  format('truetype'); /* Safari, Android, iOS */
 
   font-style:   normal;
   font-weight:  400;
@@ -52,7 +52,7 @@ button, .button, a.btn {
   background-color: #121212;
     // never use solid background colors, generate noise texture here http://www.cssmatic.com/noise-texture
     //background-image: url('background-url: http://api.thumbr.it/whitenoise-50x50.png?background=111111ff&noise=222222&density=80&opacity=15');
-  background-image: url('images/dadamachines/img-noise-50x50.png');
+//  background-image: url('images/dadamachines/img-noise-50x50.png');
   background-repeat: repeat;
   border-radius: 0px;
   border: 3px solid #121212;
@@ -96,7 +96,7 @@ header {
   padding: 0 27px;
    // never use solid background colors, generate noise texture here http://www.cssmatic.com/noise-texture
   //background-image: url('background-url: http://api.thumbr.it/whitenoise-50x50.png?background=111111ff&noise=222222&density=80&opacity=15');
-  background-image: url('images/dadamachines/img-noise-50x50.png');
+//  background-image: url('images/dadamachines/img-noise-50x50.png');
   background-repeat: repeat;
 }
 main {
