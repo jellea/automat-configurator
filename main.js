@@ -306,6 +306,7 @@ function showSysexConfig(configData){
     var displayData = "";
     var nvData = undefined;
     var veloData = undefined;
+    var gateData = undefined;
 
     if(configData[0] == 0x70 && configData[1] == 0x69 &&
         configData[2] == 0x6E && configData[3] == 0x73) {
@@ -317,6 +318,19 @@ function showSysexConfig(configData){
         veloData = configData.slice(40, 52);
     }
 
+    if(configData.length >= 80) {
+      if(configData[52] == 0x67 && configData[53] == 0x61 &&
+         configData[54] == 0x74 && configData[55] == 0x65) {
+          var rawGateData = configData.slice(56, 80);
+          gateData = new Uint16Array(12);
+          for(var i = 0; i < 12; i++) {
+              var lowerPart = rawGateData[i * 2];
+              var upperPart = rawGateData[i * 2 + 1];
+              gateData[i] = lowerPart | (upperPart << 7);
+          }
+      }
+    }
+
     if (nvData && veloData) {
         var j;
         for(var i = 0; i < 12; i++) {
@@ -324,6 +338,9 @@ function showSysexConfig(configData){
             displayData += "    channel: " + nvData[i];
             displayData += "    note: " + nvData[i + 12];
             displayData += "    program: " + veloData[i];
+            if (gateData) {
+                displayData += "    gate: " + gateData[i];
+            }
             displayData += "\r\n";
 
             var list1 = document.getElementById('m' + (i + 1));
@@ -334,6 +351,9 @@ function showSysexConfig(configData){
             list1.value = nvData[i];
             note1.value = nvData[i + 12];
             list2.value = veloData[i];
+            if (gateData) {
+                dur1.value = gateData[i];
+            }
         }
     }
 
@@ -363,7 +383,9 @@ function outputModeSanityCheck() {
             dur1.disabled = false;
             note1.disabled = false;
             list1.options[0].disabled = false;
-            dur1.value = '40';
+            if(dur1.value  == '0') {
+                dur1.value = '40';
+            }
         } else {
             note1.disabled = false;
             dur1.disabled = true;
@@ -374,27 +396,33 @@ function outputModeSanityCheck() {
 }
 
 function getConfigDataFromForm() {
-    var configData = new Uint8Array(54);
+    var configData = new Uint8Array(82);
 
     var header1 = new Uint8Array([0x70,0x69,0x6E,0x73]);
     var filler = new Uint8Array([0,0,0,0,0,0,0,0]);
     var header2 = new Uint8Array([0x76,0x65,0x6C,0x6F]);
-
+    var header3 = new Uint8Array([0x67,0x61,0x74,0x65]);
+    
     configData.set(header1);
     configData.set(filler, 28);
     configData.set(header2, 36);
+    configData.set(header3, 52);
 
     var j;
     for(var i = 0; i < 12; i++) {
         var list1 = document.getElementById('m' + (i + 1));
         var list2 = document.getElementById('v' + (i + 1));
         var note1 = document.getElementById('n' + (i + 1));
+        var gate1 = document.getElementById('d' + (i + 1));
 
         j = i + 4;
         configData[j] = list1.value;
         configData[j + 12] = note1.value;
         j = i + 40;
         configData[j] = list2.value;
+        j = i + 56 + i;
+        configData[j] = gate1.value & 0x07f;
+        configData[j + 1] = (gate1.value & 0x3F80) >> 7;
     }
 
     return configData;
