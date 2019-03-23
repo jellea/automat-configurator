@@ -267,7 +267,7 @@ function playNote(dur, velo){
 
 function sysexListener(e) {
     console.log(e);
-    if (e.data[1] == 0 && e.data[2] == 0x64 && e.data[3] == 0x41 &&
+    if (e.data[1] == 0 && e.data[2] == 0x21 && e.data[3] == 0x3D &&
         e.data[4] == 0x64) {
         if (e.data[5] == 0x41) {
             showSysexConfig(e.data.slice(6, -1));
@@ -289,7 +289,7 @@ function readSysex(){
         input.addListener('sysex', "all", sysexListener);
     }
 
-    output.sendSysex([0, 0x64, 0x41] ,[0x64,0x41,0x67,0x65,0x74,0x63]);
+    output.sendSysex([0, 0x21, 0x3D] ,[0x64,0x41,0x67,0x65,0x74,0x63]);
 }
 
 function readVersion(){
@@ -297,7 +297,7 @@ function readVersion(){
         input.addListener('sysex', "all", sysexListener);
     }
 
-    output.sendSysex([0, 0x64, 0x41] ,[0x64,0x41,0x67,0x65,0x74,0x76]);
+    output.sendSysex([0, 0x21, 0x3D] ,[0x64,0x41,0x67,0x65,0x74,0x76]);
 }
 
 function showSysexConfig(configData){
@@ -435,7 +435,7 @@ function writeSysex(configData){
         arrayOut.set(preArray);
         arrayOut.set(configData, preArray.length);
 
-        output.sendSysex([0, 0x64, 0x41], Array.from(arrayOut));
+        output.sendSysex([0, 0x21, 0x3D], Array.from(arrayOut));
     }
 }
 
@@ -456,7 +456,7 @@ function writeSysexConfigToFile(configData){
                 }());
 
     if (configData) {
-        var preArray = new Uint8Array([0xF0, 0, 0x64,0x41,0x64,0x41]);
+        var preArray = new Uint8Array([0xF0, 0, 0x21,0x3D,0x64,0x41]);
         var postArray = new Uint8Array([0xF7]);
         var arrayOut = new Uint8Array(preArray.length + configData.length + 1);
         arrayOut.set(preArray);
