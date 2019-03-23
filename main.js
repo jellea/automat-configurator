@@ -31,10 +31,10 @@ document.addEventListener('DOMContentLoaded', function(){
                   list2.options[1] = new Option('Fixed Duration', '6');
                   list2.options[2] = new Option('Quad Velocity', '1');
                   list2.options[3] = new Option('Inverse Quad Velocity', '2');
-                  list2.options[4] = new Option('PWM Velocity', '3');
+/*                  list2.options[4] = new Option('PWM Velocity', '3');
                   list2.options[5] = new Option('Continous PWM', '4');
                   list2.options[6] = new Option('Hum with controls', '5');
-
+*/
                   var list3 = document.getElementById('n' + i);
                   list3.options[0] = new Option('Not Set', '0');
                   list3.options[1] = new Option('1 C#-1', '1');
