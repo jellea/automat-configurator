@@ -64,7 +64,7 @@ button, .button, a.btn {
   font-weight: 600;
   line-height: 1;
   margin-top: 3px;
-  padding: 0.75em 1em 0.5em 1em;
+  padding: 0.6em 1em 0.5em 1em;
   text-decoration: none;
   user-select: none;
   vertical-align: middle;
@@ -151,6 +151,22 @@ main {
   height: 100%;
   display: block;
   fill: white;
+}
+
+.automat-tool__header a.default, .automat-tool__header a.experimental {
+  list-style:none;
+  margin:0;
+  padding:0;
+  padding-top: 29px;
+  text-align:right;
+  display: block;
+  line-height: normal;
+  font-family: Lelo-Bold;
+  font-weight: 700;
+  font-size: 21px;
+  color: #fff;
+  border: none;
+  text-decoration: none;
 }
 
 table.config__table {

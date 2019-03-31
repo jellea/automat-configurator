@@ -233,7 +233,7 @@ function connect (){
   if (WebMidi.enabled) {
     WebMidi.disable();
   }
-    
+
   WebMidi.enable(function (err) {
     var conne = document.getElementById("connected")
 
@@ -367,7 +367,7 @@ function outputModeSanityCheck() {
         var list2 = document.getElementById('v' + (i + 1));
         var note1 = document.getElementById('n' + (i + 1));
         var dur1  = document.getElementById('d' + (i + 1));
-        
+
         if(list2.value == '5') {
             // this is for hum mode
             note1.disabled = true;
@@ -402,7 +402,7 @@ function getConfigDataFromForm() {
     var filler = new Uint8Array([0,0,0,0,0,0,0,0]);
     var header2 = new Uint8Array([0x76,0x65,0x6C,0x6F]);
     var header3 = new Uint8Array([0x67,0x61,0x74,0x65]);
-    
+
     configData.set(header1);
     configData.set(filler, 28);
     configData.set(header2, 36);
@@ -496,19 +496,19 @@ function testNode(index) {
     var note1 = document.getElementById('n' + index);
     var mode1 = document.getElementById('v' + index);
     var tv = document.getElementById('tv');
-    
+
     var channel = 1;
     if (list1.value != '0') {
         channel = list1.value;
     }
-    
+
     var note = note1.value;
-    
+
     if (mode1.value == '5') {
         // set an arbitrary note for hum mode
         note = '43'
     }
-    
+
     if(note != '0') {
         output.playNote(note, channel, {duration: 2000, rawVelocity:true, velocity: tv.value});
     }
