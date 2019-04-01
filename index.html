@@ -38,6 +38,7 @@
     <button class="bb" id="save1" disabled onclick="writeSysex(getConfigDataFromForm())">Write config</button>
     <button class="bb" id="save2" onclick="writeSysexConfigToFile(getConfigDataFromForm())">Save to sysex file</button>
     <button class="bb" onclick="readSysexConfigFromFile()">Load from sysex file</button>
+    <button class="bb" id="expb" onclick="loadExperimentalPage()" style="display: none;">Switch to experimental</button>
 
     <input type="file" id="fileElem" single accept=".syx" style="display:none" onchange="readSysexFile(this.files)">
 
@@ -53,122 +54,121 @@
                     <th>Note</th>
                     <th>Test</th>
                 </tr>
-                <tr>
-                <tr>
+                <tr id="r1">
                     <td><b>1</b></td>
                     <td>
-                      <input id="range-1-1" type="range" min="0" max="100" value="40">
-                      <input id="range-1-2" type="range" min="0" max="100" value="40">
+                      <input id="range-1-1" type="range" min="1" max="127" value="40">
+                      <input id="range-1-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m1"></td>
                     <td><select id="n1"></td>
                     <td><button class="trigger" onclick="testNode(1)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r2">
                     <td><b>2</b></td>
                     <td>
-                      <input id="range-2-1" type="range" min="0" max="100" value="40">
-                      <input id="range-2-2" type="range" min="0" max="100" value="40">
+                      <input id="range-2-1" type="range" min="1" max="127" value="40">
+                      <input id="range-2-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m2"></td>
                     <td><select id="n2"></td>
                     <td><button class="trigger" onclick="testNode(2)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r3">
                     <td><b>3</b></td>
                     <td>
-                      <input id="range-3-1" type="range" min="0" max="100" value="40">
-                      <input id="range-3-2" type="range" min="0" max="100" value="40">
+                      <input id="range-3-1" type="range" min="1" max="127" value="40">
+                      <input id="range-3-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m3"></td>
                     <td><select id="n3"></td>
                     <td><button class="trigger" onclick="testNode(3)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r4">
                     <td><b>4</b></td>
                     <td>
-                      <input id="range-4-1" type="range" min="0" max="100" value="40">
-                      <input id="range-4-2" type="range" min="0" max="100" value="40">
+                      <input id="range-4-1" type="range" min="1" max="127" value="40">
+                      <input id="range-4-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m4"></td>
                     <td><select id="n4"></td>
                     <td><button class="trigger" onclick="testNode(4)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r5">
                     <td><b>5</b></td>
                     <td>
-                      <input id="range-5-1" type="range" min="0" max="100" value="40">
-                      <input id="range-5-2" type="range" min="0" max="100" value="40">
+                      <input id="range-5-1" type="range" min="1" max="127" value="40">
+                      <input id="range-5-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m5"></td>
                     <td><select id="n5"></td>
                     <td><button class="trigger" onclick="testNode(5)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r6">
                     <td><b>6</b></td>
                     <td>
-                      <input id="range-6-1" type="range" min="0" max="100" value="40">
-                      <input id="range-6-2" type="range" min="0" max="100" value="40">
+                      <input id="range-6-1" type="range" min="1" max="127" value="40">
+                      <input id="range-6-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m6"></td>
                     <td><select id="n6"></td>
                     <td><button class="trigger" onclick="testNode(6)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r7">
                     <td><b>7</b></td>
                     <td>
-                      <input id="range-7-1" type="range" min="0" max="100" value="40">
-                      <input id="range-7-2" type="range" min="0" max="100" value="40">
+                      <input id="range-7-1" type="range" min="1" max="127" value="40">
+                      <input id="range-7-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m7"></td>
                     <td><select id="n7"></td>
                     <td><button class="trigger" onclick="testNode(7)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r8">
                     <td><b>8</b></td>
                     <td>
-                      <input id="range-8-1" type="range" min="0" max="100" value="40">
-                      <input id="range-8-2" type="range" min="0" max="100" value="40">
+                      <input id="range-8-1" type="range" min="1" max="127" value="40">
+                      <input id="range-8-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m8"></td>
                     <td><select id="n8"></td>
                     <td><button class="trigger" onclick="testNode(8)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r9">
                     <td><b>9</b></td>
                     <td>
-                      <input id="range-9-1" type="range" min="0" max="100" value="40">
-                      <input id="range-9-2" type="range" min="0" max="100" value="40">
+                      <input id="range-9-1" type="range" min="1" max="127" value="40">
+                      <input id="range-9-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m9"></td>
                     <td><select id="n9"></td>
                     <td><button class="trigger" onclick="testNode(9)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r10">
                     <td><b>10</b></td>
                     <td>
-                      <input id="range-10-1" type="range" min="0" max="100" value="40">
-                      <input id="range-10-2" type="range" min="0" max="100" value="40">
+                      <input id="range-10-1" type="range" min="1" max="127" value="40">
+                      <input id="range-10-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m10"></td>
                     <td><select id="n10"></td>
                     <td><button class="trigger" onclick="testNode(10)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r11">
                     <td><b>11</b></td>
                     <td>
-                      <input id="range-11-1" type="range" min="0" max="100" value="40">
-                      <input id="range-11-2" type="range" min="0" max="100" value="40">
+                      <input id="range-11-1" type="range" min="1" max="127" value="40">
+                      <input id="range-11-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m11"></td>
                     <td><select id="n11"></td>
                     <td><button class="trigger" onclick="testNode(11)">test</button></td>
                 </tr>
-                <tr>
+                <tr id="r12">
                     <td><b>12</b></td>
                     <td>
-                      <input id="range-12-1" type="range" min="0" max="100" value="40">
-                      <input id="range-12-2" type="range" min="0" max="100" value="40">
+                      <input id="range-12-1" type="range" min="1" max="127" value="40">
+                      <input id="range-12-2" type="range" min="1" max="127" value="40">
                     </td>
                     <td><select id="m12"></td>
                     <td><select id="n12"></td>
@@ -187,10 +187,10 @@
 
   <script src="jsr.js"></script>
   <script>
-      new JSR(['#range-1-1', '#range-1-2'], {
+      var jsr1 = new JSR(['#range-1-1', '#range-1-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+          min: 1,
+          max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -198,10 +198,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-2-1', '#range-2-2'], {
+      var jsr2 = new JSR(['#range-2-1', '#range-2-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -209,10 +209,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-3-1', '#range-3-2'], {
+      var jsr3 = new JSR(['#range-3-1', '#range-3-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -220,10 +220,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-4-1', '#range-4-2'], {
+      var jsr4 = new JSR(['#range-4-1', '#range-4-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -231,10 +231,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-5-1', '#range-5-2'], {
+      var jsr5 = new JSR(['#range-5-1', '#range-5-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -242,10 +242,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-6-1', '#range-6-2'], {
+      var jsr6 = new JSR(['#range-6-1', '#range-6-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -253,10 +253,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-7-1', '#range-7-2'], {
+      var jsr7 = new JSR(['#range-7-1', '#range-7-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -264,10 +264,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-8-1', '#range-8-2'], {
+      var jsr8 = new JSR(['#range-8-1', '#range-8-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -275,10 +275,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-9-1', '#range-9-2'], {
+      var jsr9 = new JSR(['#range-9-1', '#range-9-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -286,10 +286,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-10-1', '#range-10-2'], {
+      var jsr10 = new JSR(['#range-10-1', '#range-10-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -297,10 +297,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-11-1', '#range-11-2'], {
+      var jsr11 = new JSR(['#range-11-1', '#range-11-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -308,10 +308,10 @@
           grid: false,
           log: 'info'
       });
-      new JSR(['#range-12-1', '#range-12-2'], {
+      var jsr12 = new JSR(['#range-12-1', '#range-12-2'], {
           sliders: 2,
-          min: 0,
-          max: 100,
+              min: 1,
+              max: 127,
           values: [10, 40],
           labels: {
               minMax: false
@@ -319,6 +319,9 @@
           grid: false,
           log: 'info'
       });
+      
+      var jsrArray = [jsr1, jsr2, jsr3, jsr4, jsr5, jsr6,
+          jsr7, jsr8, jsr9, jsr10, jsr11, jsr12];
     </script>
 
 </body>

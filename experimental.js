@@ -26,6 +26,15 @@ document.addEventListener('DOMContentLoaded', function(){
                   list1.options[15] = new Option('15', '15');
                   list1.options[16] = new Option('16', '16');
 
+                  var list2 = document.getElementById('v' + i);
+                  list2.options[0] = new Option('On/Off', '0');
+                  list2.options[1] = new Option('Fixed Duration', '6');
+                  list2.options[2] = new Option('Quad Velocity', '1');
+                  list2.options[3] = new Option('Inverse Quad Velocity', '2');
+/*                  list2.options[4] = new Option('PWM Velocity', '3');
+                  list2.options[5] = new Option('Continous PWM', '4');
+                  list2.options[6] = new Option('Hum with controls', '5');
+*/
                   var list3 = document.getElementById('n' + i);
                   list3.options[0] = new Option('Not Set', '0');
                   list3.options[1] = new Option('1 C#-1', '1');
@@ -155,8 +164,69 @@ document.addEventListener('DOMContentLoaded', function(){
                   list3.options[125] = new Option('125 F9', '125');
                   list3.options[126] = new Option('126 F#9', '126');
                   list3.options[127] = new Option('127 G9', '127');
+
+                  var list4 = document.getElementById('d' + i);
+                  list4.options[0] = new Option('Not Set', '0');
+                  list4.options[1] = new Option('1ms', '1');
+                  list4.options[2] = new Option('2ms', '2');
+                  list4.options[3] = new Option('3ms', '3');
+                  list4.options[4] = new Option('4ms', '4');
+                  list4.options[5] = new Option('5ms', '5');
+                  list4.options[6] = new Option('6ms', '6');
+                  list4.options[7] = new Option('7ms', '7');
+                  list4.options[8] = new Option('8ms', '8');
+                  list4.options[9] = new Option('9ms', '9');
+                  list4.options[10] = new Option('10ms', '10');
+                  list4.options[11] = new Option('11ms', '11');
+                  list4.options[12] = new Option('12ms', '12');
+                  list4.options[13] = new Option('13ms', '13');
+                  list4.options[14] = new Option('14ms', '14');
+                  list4.options[15] = new Option('15ms', '15');
+                  list4.options[16] = new Option('16ms', '16');
+                  list4.options[17] = new Option('17ms', '17');
+                  list4.options[18] = new Option('18ms', '18');
+                  list4.options[19] = new Option('19ms', '19');
+                  list4.options[20] = new Option('20ms', '20');
+                  list4.options[21] = new Option('21ms', '21');
+                  list4.options[22] = new Option('22ms', '22');
+                  list4.options[23] = new Option('23ms', '23');
+                  list4.options[24] = new Option('24ms', '24');
+                  list4.options[25] = new Option('25ms', '25');
+                  list4.options[26] = new Option('26ms', '26');
+                  list4.options[27] = new Option('27ms', '27');
+                  list4.options[28] = new Option('28ms', '28');
+                  list4.options[29] = new Option('29ms', '29');
+                  list4.options[30] = new Option('30ms', '30');
+                  list4.options[31] = new Option('31ms', '31');
+                  list4.options[32] = new Option('32ms', '32');
+                  list4.options[33] = new Option('33ms', '33');
+                  list4.options[34] = new Option('34ms', '34');
+                  list4.options[35] = new Option('35ms', '35');
+                  list4.options[36] = new Option('36ms', '36');
+                  list4.options[37] = new Option('37ms', '37');
+                  list4.options[38] = new Option('38ms', '38');
+                  list4.options[39] = new Option('39ms', '39');
+                  list4.options[40] = new Option('40ms', '40');
+                  list4.options[41] = new Option('45ms', '45');
+                  list4.options[42] = new Option('50ms', '50');
+                  list4.options[43] = new Option('55ms', '55');
+                  list4.options[44] = new Option('60ms', '60');
+                  list4.options[45] = new Option('65ms', '65');
+                  list4.options[46] = new Option('70ms', '70');
+                  list4.options[47] = new Option('75ms', '75');
+                  list4.options[48] = new Option('80ms', '80');
+                  list4.options[49] = new Option('85ms', '85');
+                  list4.options[50] = new Option('90ms', '90');
+                  list4.options[51] = new Option('95ms', '95');
+                  list4.options[52] = new Option('100ms', '100');
+                  list4.options[53] = new Option('105ms', '105');
+                  list4.options[54] = new Option('110ms', '110');
+                  list4.options[55] = new Option('115ms', '115');
+                  list4.options[56] = new Option('120ms', '120');
+                  list4.disabled = true;
+
             }
-    });
+                          });
 
 
 function connect (){
@@ -172,16 +242,15 @@ function connect (){
       input = WebMidi.getInputByName("dadamachines automat");
 
       if (output && input) {
-                 conne.innerText = "automat connected";
-                 conne.style.color = "#47b535";
-                 readVersion();
+        conne.innerText = "automat connected"
+        conne.style.color = "#47b535"
       } else {
-                 conne.innerText = "could not find automat";
-                 conne.style.color = "red";
+        conne.innerText = "could not find automat"
+        conne.style.color = "red"
       }
     } else {
-                 conne.innerText = "please accept webmidi (in Google Chrome)";
-                 conne.style.color = "red";
+      conne.innerText = "please accept webmidi (in Google Chrome)"
+      conne.style.color = "red"
     }
   }, true);
 }
@@ -211,15 +280,6 @@ function sysexListener(e) {
             var version = versMajor + '.' + versMinor + '.' + versFix;
             var pField = document.getElementById("version_config");
             pField.innerText = "Version is: " + version;
-            var capabilities = e.data[11];
-            if (capabilities > 0) {
-                document.getElementById('expb').style.display = "block";
-            }
-            
-            var numPins = e.data[13];
-            for(var i = 12; i > numPins; --i) {
-                document.getElementById('r' + i).style.display = "none";
-            }
         }
     }
 }
@@ -247,70 +307,54 @@ function showSysexConfig(configData){
     var nvData = undefined;
     var veloData = undefined;
     var gateData = undefined;
-    var numPins = 12;
-    var offset = 8;
 
     if(configData[0] == 0x70 && configData[1] == 0x69 &&
         configData[2] == 0x6E && configData[3] == 0x73) {
-        numPins = configData[7];
-        nvData = configData.slice(offset, offset + (2 * numPins));
-        offset += 2 * numPins;
-        console.log('num pins = ' + numPins);
+        nvData = configData.slice(4, 28);
     }
 
-    if(configData[offset] == 0x76 && configData[offset + 1] == 0x6C &&
-       configData[offset + 2] == 0x74 && configData[offset + 3] == 0x79) {
-        offset += 4;
-        veloData = configData.slice(offset, offset + (3 * numPins));
-        offset += 3 * numPins;
-        console.log('have veloData');
+    if(configData[36] == 0x76 && configData[37] == 0x65 &&
+       configData[38] == 0x6C && configData[39] == 0x6F) {
+        veloData = configData.slice(40, 52);
     }
 
-    if(configData.length >= (offset + (2 * numPins) + 4)) {
-      if(configData[offset] == 0x67 && configData[offset + 1] == 0x61 &&
-         configData[offset + 2] == 0x74 && configData[offset + 3] == 0x65) {
-          offset += 4;
-          var rawGateData = configData.slice(offset, offset + (2 * numPins));
-          gateData = new Uint16Array(numPins);
-          for(var i = 0; i < numPins; i++) {
+    if(configData.length >= 80) {
+      if(configData[52] == 0x67 && configData[53] == 0x61 &&
+         configData[54] == 0x74 && configData[55] == 0x65) {
+          var rawGateData = configData.slice(56, 80);
+          gateData = new Uint16Array(12);
+          for(var i = 0; i < 12; i++) {
               var lowerPart = rawGateData[i * 2];
               var upperPart = rawGateData[i * 2 + 1];
               gateData[i] = lowerPart | (upperPart << 7);
           }
-          console.log('have gateData');
       }
     }
 
     if (nvData && veloData) {
         var j;
-        for(var i = 0; i < numPins; i++) {
+        for(var i = 0; i < 12; i++) {
             displayData += "pin: " + (i + 1);
             displayData += "    channel: " + nvData[i];
-            displayData += "    note: " + nvData[i + numPins];
+            displayData += "    note: " + nvData[i + 12];
             displayData += "    program: " + veloData[i];
-            displayData += "    msMin: " + veloData[i + numPins];
-            displayData += "    msMax: " + veloData[i + numPins + numPins];
             if (gateData) {
                 displayData += "    gate: " + gateData[i];
             }
             displayData += "\r\n";
 
             var list1 = document.getElementById('m' + (i + 1));
+            var list2 = document.getElementById('v' + (i + 1));
             var note1 = document.getElementById('n' + (i + 1));
-            var jsr = jsrArray[i];
+            var dur1  = document.getElementById('d' + (i + 1));
 
-            note1.value = nvData[i + numPins];
             list1.value = nvData[i];
-            jsr.setValue(0, veloData[i + numPins]);
-            jsr.setValue(1, veloData[i + numPins + numPins]);
-            // need to set this again in case the range was inconsistent with the first set
-            jsr.setValue(0, veloData[i + numPins]);
+            note1.value = nvData[i + 12];
+            list2.value = veloData[i];
+            if (gateData) {
+                dur1.value = gateData[i];
+            }
         }
-        
-        for(var i = 12; i > numPins; --i) {
-            document.getElementById('r' + i).style.display = "none";
-        }
-        console.log(displayData);
     }
 
     outputModeSanityCheck();
@@ -319,9 +363,35 @@ function showSysexConfig(configData){
 
 function outputModeSanityCheck() {
     for(var i = 0; i < 12; i++) {
+        var list1 = document.getElementById('m' + (i + 1));
         var list2 = document.getElementById('v' + (i + 1));
         var note1 = document.getElementById('n' + (i + 1));
-        note1.disabled = false;
+        var dur1  = document.getElementById('d' + (i + 1));
+
+        if(list2.value == '5') {
+            // this is for hum mode
+            note1.disabled = true;
+            dur1.disabled = true;
+            list1.options[0].disabled = true;
+            note1.value = '0';
+            dur1.value = '0';
+            if(list1.value == '0') {
+                list1.value = '1';
+            }
+        } else if (list2.value == '6') {
+            // this is for fixed duration mode
+            dur1.disabled = false;
+            note1.disabled = false;
+            list1.options[0].disabled = false;
+            if(dur1.value  == '0') {
+                dur1.value = '40';
+            }
+        } else {
+            note1.disabled = false;
+            dur1.disabled = true;
+            list1.options[0].disabled = false;
+            dur1.value = '0';
+        }
     }
 }
 
@@ -332,32 +402,39 @@ function getConfigDataFromForm() {
         numPins = 6;
     }
     
-    var configData = new Uint8Array(12 + (numPins * 5));
-
+    var configData = new Uint8Array(16 + (numPins * 7));
+    
     var header1 = new Uint8Array([0x70,0x69,0x6E,0x73]);
     var header2 = new Uint8Array([0x76,0x6C,0x74,0x79]);
-
+    var header3 = new Uint8Array([0x67,0x61,0x74,0x65]);
+    
     configData.set(header1);
     configData.set(header2, 8 + (numPins * 2));
-
+    configData.set(header3, 12 + (numPins * 5));
+    
     var j;
     configData[7] = numPins;
-                   
+    
     for(var i = 0; i < numPins; i++) {
         var list1 = document.getElementById('m' + (i + 1));
         var note1 = document.getElementById('n' + (i + 1));
         var range1 = document.getElementById('range-' + (i + 1) + '-1');
         var range2 = document.getElementById('range-' + (i + 1) + '-2');
+        var note1 = document.getElementById('n' + (i + 1));
+        var gate1 = document.getElementById('d' + (i + 1));
 
         j = i + 8;
         configData[j] = list1.value;
         configData[j + numPins] = note1.value;
         j = i + 12 + (numPins * 2);
-        configData[j] = 0;
+        configData[j] = list2.value;
         configData[j + numPins] = range1.value;
         configData[j + numPins + numPins] = range2.value;
+        j = (2 * i) + 16 + (numPins * 5);
+        configData[j] = gate1.value & 0x07f;
+        configData[j + 1] = (gate1.value & 0x3F80) >> 7;
     }
-
+    
     return configData;
 }
 
@@ -445,9 +522,5 @@ function testNode(index) {
     if(note != '0') {
         output.playNote(note, channel, {duration: 2000, rawVelocity:true, velocity: tv.value});
     }
-}
-
-function loadExperimentalPage(){
-    window.location.href = "./experimental.html";
 }
 
