@@ -1,7 +1,8 @@
 var output = undefined
 var input = undefined
 var currentConfig = undefined
-
+var timeoutId = undefined
+var updatingUIFromConfig = false
 
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -241,6 +242,7 @@ function readVersion(){
 }
 
 function showSysexConfig(configData){
+    updatingUIFromConfig = true;
     currentConfig = configData;
     var pField = document.getElementById("sysex_config");
     var displayData = "";
@@ -315,6 +317,7 @@ function showSysexConfig(configData){
 
     outputModeSanityCheck();
     pField.innerText = displayData;
+    updatingUIFromConfig = false;
 }
 
 function outputModeSanityCheck() {
@@ -420,15 +423,17 @@ function readSysexFile(e) {
 
 var warningIssued = false;
 
-function testNode(index) {
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function testNode(index) {
     if (!warningIssued) {
-        alert("Please note, test mode only works with settings saved on the automat");
+        alert("Please note, test mode works best when settings are saved on the automat");
         warningIssued = true;
     }
     var list1 = document.getElementById('m' + index);
     var note1 = document.getElementById('n' + index);
-    var mode1 = document.getElementById('v' + index);
-    var tv = document.getElementById('tv');
 
     var channel = 1;
     if (list1.value != '0') {
@@ -437,13 +442,15 @@ function testNode(index) {
 
     var note = note1.value;
 
-    if (mode1.value == '5') {
-        // set an arbitrary note for hum mode
-        note = '43'
-    }
-
     if(note != '0') {
-        output.playNote(note, channel, {duration: 2000, rawVelocity:true, velocity: tv.value});
+        for(var i = 0; i < 5; ++i) {
+            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 1})
+            await sleep(1200);
+            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 64})
+            await sleep(1200);
+            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 126});
+            await sleep(1200);
+        }
     }
 }
 
@@ -451,3 +458,32 @@ function loadExperimentalPage(){
     window.location.href = "./experimental.html";
 }
 
+async function updateMaxMinRange(index, input, value) {
+    if (updatingUIFromConfig) {
+        return;
+    }
+    var list1 = document.getElementById('m' + index);
+    var note1 = document.getElementById('n' + index);
+    var note = note1.value;
+
+    var channel = 1;
+    if (list1.value != '0') {
+        channel = list1.value;
+    }
+    
+    console.log(input, value);
+    var message = [0x6D, 0x4D, index - 1, value];
+
+    if (input.id.endsWith('-1')) {
+        message[1] = 0x6D;
+    }
+    
+    if (timeoutId != undefined) {
+        clearTimeout(timeoutId);
+    }
+    
+    // Don't overload MIDI.   Limit to 10 messages per second
+    timeoutId = setTimeout(function(){
+                                  output.sendSysex([0, 0x21, 0x3D], message);
+                                  timeoutId = undefined;} , 100);
+ }

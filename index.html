@@ -189,7 +189,7 @@
   <script>
       var jsr1 = new JSR(['#range-1-1', '#range-1-2'], {
           sliders: 2,
-          min: 1,
+          min: 0,
           max: 127,
           values: [10, 40],
           labels: {
@@ -200,7 +200,7 @@
       });
       var jsr2 = new JSR(['#range-2-1', '#range-2-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -211,7 +211,7 @@
       });
       var jsr3 = new JSR(['#range-3-1', '#range-3-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -222,7 +222,7 @@
       });
       var jsr4 = new JSR(['#range-4-1', '#range-4-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -233,7 +233,7 @@
       });
       var jsr5 = new JSR(['#range-5-1', '#range-5-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -244,7 +244,7 @@
       });
       var jsr6 = new JSR(['#range-6-1', '#range-6-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -255,7 +255,7 @@
       });
       var jsr7 = new JSR(['#range-7-1', '#range-7-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -266,7 +266,7 @@
       });
       var jsr8 = new JSR(['#range-8-1', '#range-8-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -277,7 +277,7 @@
       });
       var jsr9 = new JSR(['#range-9-1', '#range-9-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -288,7 +288,7 @@
       });
       var jsr10 = new JSR(['#range-10-1', '#range-10-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -299,7 +299,7 @@
       });
       var jsr11 = new JSR(['#range-11-1', '#range-11-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -310,7 +310,7 @@
       });
       var jsr12 = new JSR(['#range-12-1', '#range-12-2'], {
           sliders: 2,
-              min: 1,
+              min: 0,
               max: 127,
           values: [10, 40],
           labels: {
@@ -322,6 +322,42 @@
       
       var jsrArray = [jsr1, jsr2, jsr3, jsr4, jsr5, jsr6,
           jsr7, jsr8, jsr9, jsr10, jsr11, jsr12];
+      jsr1.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(1, input, value);
+                            });
+      jsr2.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(2, input, value);
+                            });
+      jsr3.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(3, input, value);
+                            });
+      jsr4.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(4, input, value);
+                            });
+      jsr5.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(5, input, value);
+                            });
+      jsr6.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(6, input, value);
+                            });
+      jsr7.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(7, input, value);
+                            });
+      jsr8.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(8, input, value);
+                            });
+      jsr9.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(9, input, value);
+                            });
+      jsr10.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(10, input, value);
+                            });
+      jsr11.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(11, input, value);
+                            });
+      jsr12.addEventListener('update', (input, value) => {
+                            updateMaxMinRange(12, input, value);
+                            });
     </script>
 
 </body>
