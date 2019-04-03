@@ -176,6 +176,7 @@ function connect (){
                  conne.innerText = "automat connected";
                  conne.style.color = "#47b535";
                  readVersion();
+                 readSysex();
       } else {
                  conne.innerText = "could not find automat";
                  conne.style.color = "red";
@@ -429,7 +430,7 @@ function sleep(ms) {
 
 async function testNode(index) {
     if (!warningIssued) {
-        alert("Please note, test mode works best when settings are saved on the automat");
+        alert("Please note, test mode works best when note and channel settings are saved on the automat");
         warningIssued = true;
     }
     var list1 = document.getElementById('m' + index);
