@@ -156,6 +156,14 @@ document.addEventListener('DOMContentLoaded', function(){
                   list3.options[125] = new Option('125 F9', '125');
                   list3.options[126] = new Option('126 F#9', '126');
                   list3.options[127] = new Option('127 G9', '127');
+
+                  var list4 = document.getElementById('c' + i);
+                  list4.options[0] = new Option('Normal', '1');
+                  list4.options[1] = new Option('Inverse', '-1');
+                  const index = i;
+                  list4.addEventListener('change', function() {
+                        window.drawResponse(index);
+                     });
             }
     });
 
@@ -459,10 +467,65 @@ function loadExperimentalPage(){
     window.location.href = "./experimental.html";
 }
 
+function drawResponse(index) {
+    var min_range = document.getElementById('range-' + index + '-1');
+    var max_range = document.getElementById('range-' + index + '-2');
+    var curve = document.getElementById('c' + index);
+    var canvas = document.getElementById('d' + index);
+    
+    var range = ((1000 - 127) * (max_range.value - min_range.value) / 127.0) + 0.5;
+    var base_val = ((1000 - 127) * min_range.value / 127.0) + 0.5;
+    
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(0, 100);
+
+    for(var i = 1; i < 128; ++i) {
+        if(max_range.value == 0) {
+            ctx.lineTo(i, 0);
+            continue;
+        }
+
+        // Map the input range of 0..127 to a value between 0..1.
+        var fraction = i / 127.0;
+        
+        // Map 0..1 to 0..1, but let it grow exponentially.
+        var y = Math.pow(fraction, 3);
+        
+        if (curve.value == -1) {
+            fraction = (127 - i) / 127.0;
+            y = 1 - Math.pow(fraction, 2);
+        }
+        
+        // Convert to a value between 0..1000. We add the base
+        // value to assure that we produce growing values; otherwise
+        // the first numbers in the sequence would be rounded to the
+        // same values.
+        var v = i + (y * range) + base_val;
+        
+        // Round 500..1000 in 10 steps increment.
+        if (v >= 500) {
+            v -= v % 10;
+            // Round 150..499 in 5 steps increment.
+        }
+        else if (v >= 150) {
+            v -= v % 5;
+        }
+        
+        ctx.lineTo(i, 100 - (v / 10));
+    }
+    
+    ctx.stroke();
+}
+
 async function updateMaxMinRange(index, input, value) {
+    drawResponse(index);
+
     if (updatingUIFromConfig) {
         return;
     }
+    
     var list1 = document.getElementById('m' + index);
     var note1 = document.getElementById('n' + index);
     var note = note1.value;
