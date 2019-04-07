@@ -158,8 +158,8 @@ document.addEventListener('DOMContentLoaded', function(){
                   list3.options[127] = new Option('127 G9', '127');
 
                   var list4 = document.getElementById('c' + i);
-                  list4.options[0] = new Option('Normal', '1');
-                  list4.options[1] = new Option('Inverse', '-1');
+                  list4.options[0] = new Option('Normal', '3');
+                  list4.options[1] = new Option('Inverse', '-2');
                   const index = i;
                   list4.addEventListener('change', function() {
                         window.drawResponse(index);
@@ -308,10 +308,12 @@ function showSysexConfig(configData){
 
             var list1 = document.getElementById('m' + (i + 1));
             var note1 = document.getElementById('n' + (i + 1));
+            var curve1 = document.getElementById('c' + (i + 1));
             var jsr = jsrArray[i];
 
             note1.value = nvData[i + numPins];
             list1.value = nvData[i];
+            curve1.value = veloData[i + numPins + numPins + numPins];
             jsr.setValue(0, veloData[i + numPins]);
             jsr.setValue(1, veloData[i + numPins + numPins]);
             // need to set this again in case the range was inconsistent with the first set
@@ -344,7 +346,7 @@ function getConfigDataFromForm() {
         numPins = 6;
     }
     
-    var configData = new Uint8Array(12 + (numPins * 5));
+    var configData = new Uint8Array(12 + (numPins * 6));
 
     var header1 = new Uint8Array([0x70,0x69,0x6E,0x73]);
     var header2 = new Uint8Array([0x76,0x6C,0x74,0x79]);
@@ -360,6 +362,7 @@ function getConfigDataFromForm() {
         var note1 = document.getElementById('n' + (i + 1));
         var range1 = document.getElementById('range-' + (i + 1) + '-1');
         var range2 = document.getElementById('range-' + (i + 1) + '-2');
+        var curve1 = document.getElementById('c' + (i + 1));
 
         j = i + 8;
         configData[j] = list1.value;
@@ -368,6 +371,7 @@ function getConfigDataFromForm() {
         configData[j] = 0;
         configData[j + numPins] = range1.value;
         configData[j + numPins + numPins] = range2.value;
+        configData[j + numPins + numPins + numPins] = curve1.value;
     }
 
     return configData;
@@ -493,7 +497,7 @@ function drawResponse(index) {
         // Map 0..1 to 0..1, but let it grow exponentially.
         var y = Math.pow(fraction, 3);
         
-        if (curve.value == -1) {
+        if (curve.value == -2) {
             fraction = (127 - i) / 127.0;
             y = 1 - Math.pow(fraction, 2);
         }
