@@ -1,7 +1,8 @@
 var output = undefined
 var input = undefined
 var currentConfig = undefined
-
+var timeoutId = undefined
+var updatingUIFromConfig = false
 
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -25,16 +26,17 @@ document.addEventListener('DOMContentLoaded', function(){
                   list1.options[14] = new Option('14', '14');
                   list1.options[15] = new Option('15', '15');
                   list1.options[16] = new Option('16', '16');
-
+ 
                   var list2 = document.getElementById('v' + i);
-                  list2.options[0] = new Option('On/Off', '0');
-                  list2.options[1] = new Option('Fixed Duration', '6');
-                  list2.options[2] = new Option('Quad Velocity', '1');
-                  list2.options[3] = new Option('Inverse Quad Velocity', '2');
-/*                  list2.options[4] = new Option('PWM Velocity', '3');
-                  list2.options[5] = new Option('Continous PWM', '4');
-                  list2.options[6] = new Option('Hum with controls', '5');
-*/
+                  list2.options[0] = new Option('Default', '0');
+                  list2.options[1] = new Option('On/Off', '1');
+                  list2.options[2] = new Option('Quad Velocity', '2');
+                  list2.options[3] = new Option('Inverse Quad Velocity', '3');
+                  list2.options[4] = new Option('Fixed Duration', '4');
+                  list2.options[5] = new Option('PWM Velocity', '5');
+                  list2.options[6] = new Option('Continous PWM', '6');
+                  list2.options[7] = new Option('Hum with controls', '7');
+ 
                   var list3 = document.getElementById('n' + i);
                   list3.options[0] = new Option('Not Set', '0');
                   list3.options[1] = new Option('1 C#-1', '1');
@@ -165,68 +167,76 @@ document.addEventListener('DOMContentLoaded', function(){
                   list3.options[126] = new Option('126 F#9', '126');
                   list3.options[127] = new Option('127 G9', '127');
 
-                  var list4 = document.getElementById('d' + i);
-                  list4.options[0] = new Option('Not Set', '0');
-                  list4.options[1] = new Option('1ms', '1');
-                  list4.options[2] = new Option('2ms', '2');
-                  list4.options[3] = new Option('3ms', '3');
-                  list4.options[4] = new Option('4ms', '4');
-                  list4.options[5] = new Option('5ms', '5');
-                  list4.options[6] = new Option('6ms', '6');
-                  list4.options[7] = new Option('7ms', '7');
-                  list4.options[8] = new Option('8ms', '8');
-                  list4.options[9] = new Option('9ms', '9');
-                  list4.options[10] = new Option('10ms', '10');
-                  list4.options[11] = new Option('11ms', '11');
-                  list4.options[12] = new Option('12ms', '12');
-                  list4.options[13] = new Option('13ms', '13');
-                  list4.options[14] = new Option('14ms', '14');
-                  list4.options[15] = new Option('15ms', '15');
-                  list4.options[16] = new Option('16ms', '16');
-                  list4.options[17] = new Option('17ms', '17');
-                  list4.options[18] = new Option('18ms', '18');
-                  list4.options[19] = new Option('19ms', '19');
-                  list4.options[20] = new Option('20ms', '20');
-                  list4.options[21] = new Option('21ms', '21');
-                  list4.options[22] = new Option('22ms', '22');
-                  list4.options[23] = new Option('23ms', '23');
-                  list4.options[24] = new Option('24ms', '24');
-                  list4.options[25] = new Option('25ms', '25');
-                  list4.options[26] = new Option('26ms', '26');
-                  list4.options[27] = new Option('27ms', '27');
-                  list4.options[28] = new Option('28ms', '28');
-                  list4.options[29] = new Option('29ms', '29');
-                  list4.options[30] = new Option('30ms', '30');
-                  list4.options[31] = new Option('31ms', '31');
-                  list4.options[32] = new Option('32ms', '32');
-                  list4.options[33] = new Option('33ms', '33');
-                  list4.options[34] = new Option('34ms', '34');
-                  list4.options[35] = new Option('35ms', '35');
-                  list4.options[36] = new Option('36ms', '36');
-                  list4.options[37] = new Option('37ms', '37');
-                  list4.options[38] = new Option('38ms', '38');
-                  list4.options[39] = new Option('39ms', '39');
-                  list4.options[40] = new Option('40ms', '40');
-                  list4.options[41] = new Option('45ms', '45');
-                  list4.options[42] = new Option('50ms', '50');
-                  list4.options[43] = new Option('55ms', '55');
-                  list4.options[44] = new Option('60ms', '60');
-                  list4.options[45] = new Option('65ms', '65');
-                  list4.options[46] = new Option('70ms', '70');
-                  list4.options[47] = new Option('75ms', '75');
-                  list4.options[48] = new Option('80ms', '80');
-                  list4.options[49] = new Option('85ms', '85');
-                  list4.options[50] = new Option('90ms', '90');
-                  list4.options[51] = new Option('95ms', '95');
-                  list4.options[52] = new Option('100ms', '100');
-                  list4.options[53] = new Option('105ms', '105');
-                  list4.options[54] = new Option('110ms', '110');
-                  list4.options[55] = new Option('115ms', '115');
-                  list4.options[56] = new Option('120ms', '120');
-                  list4.disabled = true;
+                  var list4 = document.getElementById('c' + i);
+                  list4.options[0] = new Option('Normal', '3');
+                  list4.options[1] = new Option('Inverse', '-2');
+                  const index = i;
+                  list4.addEventListener('change', function() {
+                        window.drawResponse(index);
+                     });
+                          
+                  var list5 = document.getElementById('du' + i);
+                  list5.options[0] = new Option('Not Set', '0');
+                  list5.options[1] = new Option('1ms', '1');
+                  list5.options[2] = new Option('2ms', '2');
+                  list5.options[3] = new Option('3ms', '3');
+                  list5.options[4] = new Option('4ms', '4');
+                  list5.options[5] = new Option('5ms', '5');
+                  list5.options[6] = new Option('6ms', '6');
+                  list5.options[7] = new Option('7ms', '7');
+                  list5.options[8] = new Option('8ms', '8');
+                  list5.options[9] = new Option('9ms', '9');
+                  list5.options[10] = new Option('10ms', '10');
+                  list5.options[11] = new Option('11ms', '11');
+                  list5.options[12] = new Option('12ms', '12');
+                  list5.options[13] = new Option('13ms', '13');
+                  list5.options[14] = new Option('14ms', '14');
+                  list5.options[15] = new Option('15ms', '15');
+                  list5.options[16] = new Option('16ms', '16');
+                  list5.options[17] = new Option('17ms', '17');
+                  list5.options[18] = new Option('18ms', '18');
+                  list5.options[19] = new Option('19ms', '19');
+                  list5.options[20] = new Option('20ms', '20');
+                  list5.options[21] = new Option('21ms', '21');
+                  list5.options[22] = new Option('22ms', '22');
+                  list5.options[23] = new Option('23ms', '23');
+                  list5.options[24] = new Option('24ms', '24');
+                  list5.options[25] = new Option('25ms', '25');
+                  list5.options[26] = new Option('26ms', '26');
+                  list5.options[27] = new Option('27ms', '27');
+                  list5.options[28] = new Option('28ms', '28');
+                  list5.options[29] = new Option('29ms', '29');
+                  list5.options[30] = new Option('30ms', '30');
+                  list5.options[31] = new Option('31ms', '31');
+                  list5.options[32] = new Option('32ms', '32');
+                  list5.options[33] = new Option('33ms', '33');
+                  list5.options[34] = new Option('34ms', '34');
+                  list5.options[35] = new Option('35ms', '35');
+                  list5.options[36] = new Option('36ms', '36');
+                  list5.options[37] = new Option('37ms', '37');
+                  list5.options[38] = new Option('38ms', '38');
+                  list5.options[39] = new Option('39ms', '39');
+                  list5.options[40] = new Option('40ms', '40');
+                  list5.options[41] = new Option('45ms', '45');
+                  list5.options[42] = new Option('50ms', '50');
+                  list5.options[43] = new Option('55ms', '55');
+                  list5.options[44] = new Option('60ms', '60');
+                  list5.options[45] = new Option('65ms', '65');
+                  list5.options[46] = new Option('70ms', '70');
+                  list5.options[47] = new Option('75ms', '75');
+                  list5.options[48] = new Option('80ms', '80');
+                  list5.options[49] = new Option('85ms', '85');
+                  list5.options[50] = new Option('90ms', '90');
+                  list5.options[51] = new Option('95ms', '95');
+                  list5.options[52] = new Option('100ms', '100');
+                  list5.options[53] = new Option('105ms', '105');
+                  list5.options[54] = new Option('110ms', '110');
+                  list5.options[55] = new Option('115ms', '115');
+                  list5.options[56] = new Option('120ms', '120');
+                  list5.disabled = true;
 
             }
-                          });
+    });
 
 
 function connect (){
@@ -242,15 +252,17 @@ function connect (){
       input = WebMidi.getInputByName("dadamachines automat");
 
       if (output && input) {
-        conne.innerText = "automat connected"
-        conne.style.color = "#47b535"
+                 conne.innerText = "automat connected";
+                 conne.style.color = "#47b535";
+                 readVersion();
+                 readSysex();
       } else {
-        conne.innerText = "could not find automat"
-        conne.style.color = "red"
+                 conne.innerText = "could not find automat";
+                 conne.style.color = "red";
       }
     } else {
-      conne.innerText = "please accept webmidi (in Google Chrome)"
-      conne.style.color = "red"
+                 conne.innerText = "please accept webmidi (in Google Chrome)";
+                 conne.style.color = "red";
     }
   }, true);
 }
@@ -280,6 +292,15 @@ function sysexListener(e) {
             var version = versMajor + '.' + versMinor + '.' + versFix;
             var pField = document.getElementById("version_config");
             pField.innerText = "Version is: " + version;
+            var capabilities = e.data[11];
+            if (capabilities == 0) {
+                loadMainPage();
+            }
+            
+            var numPins = e.data[13];
+            for(var i = 12; i > numPins; --i) {
+                document.getElementById('r' + i).style.display = "none";
+            }
         }
     }
 }
@@ -301,43 +322,56 @@ function readVersion(){
 }
 
 function showSysexConfig(configData){
+    updatingUIFromConfig = true;
     currentConfig = configData;
     var pField = document.getElementById("sysex_config");
     var displayData = "";
     var nvData = undefined;
     var veloData = undefined;
     var gateData = undefined;
+    var numPins = 12;
+    var offset = 8;
 
     if(configData[0] == 0x70 && configData[1] == 0x69 &&
         configData[2] == 0x6E && configData[3] == 0x73) {
-        nvData = configData.slice(4, 28);
+        numPins = configData[7];
+        nvData = configData.slice(offset, offset + (2 * numPins));
+        offset += 2 * numPins;
+        console.log('num pins = ' + numPins);
     }
 
-    if(configData[36] == 0x76 && configData[37] == 0x65 &&
-       configData[38] == 0x6C && configData[39] == 0x6F) {
-        veloData = configData.slice(40, 52);
+    if(configData[offset] == 0x76 && configData[offset + 1] == 0x6C &&
+       configData[offset + 2] == 0x74 && configData[offset + 3] == 0x79) {
+        offset += 4;
+        veloData = configData.slice(offset, offset + (3 * numPins));
+        offset += 3 * numPins;
+        console.log('have veloData');
     }
 
-    if(configData.length >= 80) {
-      if(configData[52] == 0x67 && configData[53] == 0x61 &&
-         configData[54] == 0x74 && configData[55] == 0x65) {
-          var rawGateData = configData.slice(56, 80);
-          gateData = new Uint16Array(12);
-          for(var i = 0; i < 12; i++) {
+    if(configData.length >= (offset + (2 * numPins) + 4)) {
+      if(configData[offset] == 0x67 && configData[offset + 1] == 0x61 &&
+         configData[offset + 2] == 0x74 && configData[offset + 3] == 0x65) {
+          offset += 4;
+          var rawGateData = configData.slice(offset, offset + (2 * numPins));
+          gateData = new Uint16Array(numPins);
+          for(var i = 0; i < numPins; i++) {
               var lowerPart = rawGateData[i * 2];
               var upperPart = rawGateData[i * 2 + 1];
               gateData[i] = lowerPart | (upperPart << 7);
           }
+          console.log('have gateData');
       }
     }
 
     if (nvData && veloData) {
         var j;
-        for(var i = 0; i < 12; i++) {
+        for(var i = 0; i < numPins; i++) {
             displayData += "pin: " + (i + 1);
             displayData += "    channel: " + nvData[i];
-            displayData += "    note: " + nvData[i + 12];
+            displayData += "    note: " + nvData[i + numPins];
             displayData += "    program: " + veloData[i];
+            displayData += "    msMin: " + veloData[i + numPins];
+            displayData += "    msMax: " + veloData[i + numPins + numPins];
             if (gateData) {
                 displayData += "    gate: " + gateData[i];
             }
@@ -346,19 +380,32 @@ function showSysexConfig(configData){
             var list1 = document.getElementById('m' + (i + 1));
             var list2 = document.getElementById('v' + (i + 1));
             var note1 = document.getElementById('n' + (i + 1));
-            var dur1  = document.getElementById('d' + (i + 1));
+            var curve1 = document.getElementById('c' + (i + 1));
+            var dur1  = document.getElementById('du' + (i + 1));
+            var jsr = jsrArray[i];
 
+            note1.value = nvData[i + numPins];
             list1.value = nvData[i];
-            note1.value = nvData[i + 12];
             list2.value = veloData[i];
+            curve1.value = veloData[i + numPins + numPins + numPins];
+            jsr.setValue(0, veloData[i + numPins]);
+            jsr.setValue(1, veloData[i + numPins + numPins]);
+            // need to set this again in case the range was inconsistent with the first set
+            jsr.setValue(0, veloData[i + numPins]);
             if (gateData) {
                 dur1.value = gateData[i];
             }
         }
+        
+        for(var i = 12; i > numPins; --i) {
+            document.getElementById('r' + i).style.display = "none";
+        }
+        console.log(displayData);
     }
 
     outputModeSanityCheck();
     pField.innerText = displayData;
+    updatingUIFromConfig = false;
 }
 
 function outputModeSanityCheck() {
@@ -366,29 +413,39 @@ function outputModeSanityCheck() {
         var list1 = document.getElementById('m' + (i + 1));
         var list2 = document.getElementById('v' + (i + 1));
         var note1 = document.getElementById('n' + (i + 1));
-        var dur1  = document.getElementById('d' + (i + 1));
+        var dur1  = document.getElementById('du' + (i + 1));
 
-        if(list2.value == '5') {
+        if(list2.value == '7') {
             // this is for hum mode
             note1.disabled = true;
             dur1.disabled = true;
+            jsrArray[i].disable();
             list1.options[0].disabled = true;
             note1.value = '0';
             dur1.value = '0';
             if(list1.value == '0') {
                 list1.value = '1';
             }
-        } else if (list2.value == '6') {
+        } else if (list2.value == '4') {
             // this is for fixed duration mode
             dur1.disabled = false;
             note1.disabled = false;
+            jsrArray[i].disable();
             list1.options[0].disabled = false;
             if(dur1.value  == '0') {
                 dur1.value = '40';
             }
+        } else if (list2.value == '0') {
+            // this is for normal mode
+            note1.disabled = false;
+            dur1.disabled = true;
+            jsrArray[i].enable();
+            list1.options[0].disabled = false;
+            dur1.value = '0';
         } else {
             note1.disabled = false;
             dur1.disabled = true;
+            jsrArray[i].disable();
             list1.options[0].disabled = false;
             dur1.value = '0';
         }
@@ -402,26 +459,26 @@ function getConfigDataFromForm() {
         numPins = 6;
     }
     
-    var configData = new Uint8Array(16 + (numPins * 7));
-    
+    var configData = new Uint8Array(16 + (numPins * 8));
+
     var header1 = new Uint8Array([0x70,0x69,0x6E,0x73]);
     var header2 = new Uint8Array([0x76,0x6C,0x74,0x79]);
     var header3 = new Uint8Array([0x67,0x61,0x74,0x65]);
-    
+
     configData.set(header1);
     configData.set(header2, 8 + (numPins * 2));
-    configData.set(header3, 12 + (numPins * 5));
-    
+
     var j;
     configData[7] = numPins;
-    
+                   
     for(var i = 0; i < numPins; i++) {
         var list1 = document.getElementById('m' + (i + 1));
+        var list2 = document.getElementById('v' + (i + 1));
         var note1 = document.getElementById('n' + (i + 1));
         var range1 = document.getElementById('range-' + (i + 1) + '-1');
         var range2 = document.getElementById('range-' + (i + 1) + '-2');
-        var note1 = document.getElementById('n' + (i + 1));
-        var gate1 = document.getElementById('d' + (i + 1));
+        var curve1 = document.getElementById('c' + (i + 1));
+        var gate1 = document.getElementById('du' + (i + 1));
 
         j = i + 8;
         configData[j] = list1.value;
@@ -430,11 +487,13 @@ function getConfigDataFromForm() {
         configData[j] = list2.value;
         configData[j + numPins] = range1.value;
         configData[j + numPins + numPins] = range2.value;
-        j = (2 * i) + 16 + (numPins * 5);
+        configData[j + numPins + numPins + numPins] = curve1.value;
+
+        j = (2 * i) + 16 + (numPins * 6);
         configData[j] = gate1.value & 0x07f;
         configData[j + 1] = (gate1.value & 0x3F80) >> 7;
     }
-    
+
     return configData;
 }
 
@@ -497,15 +556,17 @@ function readSysexFile(e) {
 
 var warningIssued = false;
 
-function testNode(index) {
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function testNode(index) {
     if (!warningIssued) {
-        alert("Please note, test mode only works with settings saved on the automat");
+        alert("Please note, test mode works best when note and channel settings are saved on the automat");
         warningIssued = true;
     }
     var list1 = document.getElementById('m' + index);
     var note1 = document.getElementById('n' + index);
-    var mode1 = document.getElementById('v' + index);
-    var tv = document.getElementById('tv');
 
     var channel = 1;
     if (list1.value != '0') {
@@ -514,13 +575,103 @@ function testNode(index) {
 
     var note = note1.value;
 
-    if (mode1.value == '5') {
-        // set an arbitrary note for hum mode
-        note = '43'
-    }
-
     if(note != '0') {
-        output.playNote(note, channel, {duration: 2000, rawVelocity:true, velocity: tv.value});
+        for(var i = 0; i < 5; ++i) {
+            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 1})
+            await sleep(1200);
+            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 64})
+            await sleep(1200);
+            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 126});
+            await sleep(1200);
+        }
     }
 }
 
+function loadMainPage(){
+    window.location.href = "./index.html";
+}
+
+function drawResponse(index) {
+    var min_range = document.getElementById('range-' + index + '-1');
+    var max_range = document.getElementById('range-' + index + '-2');
+    var curve = document.getElementById('c' + index);
+    var canvas = document.getElementById('d' + index);
+    
+    var range = ((1000 - 127) * (max_range.value - min_range.value) / 127.0) + 0.5;
+    var base_val = ((1000 - 127) * min_range.value / 127.0) + 0.5;
+    
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(0, 100);
+
+    for(var i = 1; i < 128; ++i) {
+        if(max_range.value == 0) {
+            ctx.lineTo(i, 0);
+            continue;
+        }
+
+        // Map the input range of 0..127 to a value between 0..1.
+        var fraction = i / 127.0;
+        
+        // Map 0..1 to 0..1, but let it grow exponentially.
+        var y = Math.pow(fraction, 3);
+        
+        if (curve.value == -2) {
+            fraction = (127 - i) / 127.0;
+            y = 1 - Math.pow(fraction, 2);
+        }
+        
+        // Convert to a value between 0..1000. We add the base
+        // value to assure that we produce growing values; otherwise
+        // the first numbers in the sequence would be rounded to the
+        // same values.
+        var v = i + (y * range) + base_val;
+        
+        // Round 500..1000 in 10 steps increment.
+        if (v >= 500) {
+            v -= v % 10;
+            // Round 150..499 in 5 steps increment.
+        }
+        else if (v >= 150) {
+            v -= v % 5;
+        }
+        
+        ctx.lineTo(i, 100 - (v / 10));
+    }
+    
+    ctx.stroke();
+}
+
+async function updateMaxMinRange(index, input, value) {
+    drawResponse(index);
+
+    if (updatingUIFromConfig) {
+        return;
+    }
+    
+    var list1 = document.getElementById('m' + index);
+    var note1 = document.getElementById('n' + index);
+    var note = note1.value;
+
+    var channel = 1;
+    if (list1.value != '0') {
+        channel = list1.value;
+    }
+    
+    console.log(input, value);
+    var message = [0x6D, 0x4D, index - 1, value];
+
+    if (input.id.endsWith('-1')) {
+        message[1] = 0x6D;
+    }
+    
+    if (timeoutId != undefined) {
+        clearTimeout(timeoutId);
+    }
+    
+    // Don't overload MIDI.   Limit to 10 messages per second
+    timeoutId = setTimeout(function(){
+                                  output.sendSysex([0, 0x21, 0x3D], message);
+                                  timeoutId = undefined;} , 100);
+ }
