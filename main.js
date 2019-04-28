@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                   var list4 = document.getElementById('c' + i);
                   list4.options[0] = new Option('Normal', '3');
-                  list4.options[1] = new Option('Inverse', '-2');
+                  list4.options[1] = new Option('Inverse', '18');
                   const index = i;
                   list4.addEventListener('change', function() {
                         window.drawResponse(index);
@@ -235,9 +235,9 @@ function sysexListener(e) {
 }
 
 function readSysex(){
-    if (!input.hasListener('sysex', "all", sysexListener)) {
+//    if (!input.hasListener('sysex', "all", sysexListener)) {
         input.addListener('sysex', "all", sysexListener);
-    }
+//    }
 
     output.sendSysex([0, 0x21, 0x3D] ,[0x64,0x41,0x67,0x65,0x74,0x63]);
 }
@@ -272,8 +272,8 @@ function showSysexConfig(configData){
     if(configData[offset] == 0x76 && configData[offset + 1] == 0x6C &&
        configData[offset + 2] == 0x74 && configData[offset + 3] == 0x79) {
         offset += 4;
-        veloData = configData.slice(offset, offset + (3 * numPins));
-        offset += 3 * numPins;
+        veloData = configData.slice(offset, offset + (4 * numPins));
+        offset += 4 * numPins;
         console.log('have veloData');
     }
 
@@ -497,7 +497,7 @@ function drawResponse(index) {
         // Map 0..1 to 0..1, but let it grow exponentially.
         var y = Math.pow(fraction, 3);
         
-        if (curve.value == -2) {
+        if (curve.value == 0x12) {
             fraction = (127 - i) / 127.0;
             y = 1 - Math.pow(fraction, 2);
         }
