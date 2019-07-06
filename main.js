@@ -314,10 +314,10 @@ function showSysexConfig(configData){
             note1.value = nvData[i + numPins];
             list1.value = nvData[i];
             curve1.value = veloData[i + numPins + numPins + numPins];
-            jsr.setValue(0, veloData[i + numPins]);
-            jsr.setValue(1, veloData[i + numPins + numPins]);
+            jsr.setValue(0, veloData[i + numPins] * 8);
+            jsr.setValue(1, veloData[i + numPins + numPins] * 8);
             // need to set this again in case the range was inconsistent with the first set
-            jsr.setValue(0, veloData[i + numPins]);
+            jsr.setValue(0, veloData[i + numPins] * 8);
         }
         
         for(var i = 12; i > numPins; --i) {
@@ -369,8 +369,8 @@ function getConfigDataFromForm() {
         configData[j + numPins] = note1.value;
         j = i + 12 + (numPins * 2);
         configData[j] = 0;
-        configData[j + numPins] = range1.value;
-        configData[j + numPins + numPins] = range2.value;
+        configData[j + numPins] = range1.value / 8;
+        configData[j + numPins + numPins] = range2.value / 8;
         configData[j + numPins + numPins + numPins] = curve1.value;
     }
 
@@ -440,7 +440,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function testNode(index) {
+async function testNode(index, vel) {
     if (!warningIssued) {
         alert("Please note, test mode works best when note and channel settings are saved on the automat");
         warningIssued = true;
@@ -457,11 +457,7 @@ async function testNode(index) {
 
     if(note != '0') {
         for(var i = 0; i < 5; ++i) {
-            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 1})
-            await sleep(1200);
-            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 64})
-            await sleep(1200);
-            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity: 126});
+            output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity:vel})
             await sleep(1200);
         }
     }
@@ -477,8 +473,8 @@ function drawResponse(index) {
     var curve = document.getElementById('c' + index);
     var canvas = document.getElementById('d' + index);
     
-    var range = ((1000 - 127) * (max_range.value - min_range.value) / 127.0) + 0.5;
-    var base_val = ((1000 - 127) * min_range.value / 127.0) + 0.5;
+    var range = (max_range.value - min_range.value);
+    var base_val = min_range.value * 1.0;
     
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -506,7 +502,7 @@ function drawResponse(index) {
         // value to assure that we produce growing values; otherwise
         // the first numbers in the sequence would be rounded to the
         // same values.
-        var v = i + (y * range) + base_val;
+        var v = (y * range) + base_val;
         
         // Round 500..1000 in 10 steps increment.
         if (v >= 500) {
