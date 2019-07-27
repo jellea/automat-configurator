@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function(){
                   list4.options[1] = new Option('Inverse', '18');
                   const index = i;
                   list4.addEventListener('change', function() {
-                        window.drawResponse(index);
+                        window.changeCurve(index);
                      });
             }
     });
@@ -435,12 +435,18 @@ function readSysexFile(e) {
 }
 
 var warningIssued = false;
+var testInProgress = new Array(12).fill(false);
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function testNode(index, vel) {
+    while (testInProgress[index]) {
+        await sleep(100);
+    }
+    testInProgress[index] = true;
+    
     if (!warningIssued) {
         alert("Please note, test mode works best when note and channel settings are saved on the automat");
         warningIssued = true;
@@ -456,11 +462,12 @@ async function testNode(index, vel) {
     var note = note1.value;
 
     if(note != '0') {
-        for(var i = 0; i < 5; ++i) {
+        for(var i = 0; i < 3; ++i) {
             output.playNote(note, channel, {duration: 1100, rawVelocity:true, velocity:vel})
             await sleep(1200);
         }
     }
+    testInProgress[index] = false;
 }
 
 function loadExperimentalPage(){
@@ -519,6 +526,32 @@ function drawResponse(index) {
     ctx.stroke();
 }
 
+function changeCurve(index) {
+    drawResponse(index);
+
+    if (updatingUIFromConfig) {
+        return;
+    }
+    
+    var max_range = document.getElementById('range-' + index + '-2');
+    var note1 = document.getElementById('n' + index);
+    var curve1 = document.getElementById('c' + index);
+    var note = note1.value;
+    var power = curve1.value;
+    
+    var value = max_range.value / 8;
+    var message = [0x6D, 0x4D, index - 1, value, power];
+    
+    if (timeoutId != undefined) {
+        clearTimeout(timeoutId);
+    }
+    
+    // Don't overload MIDI.   Limit to 10 messages per second
+    timeoutId = setTimeout(function(){
+                           output.sendSysex([0, 0x21, 0x3D], message);
+                           timeoutId = undefined;} , 100);
+}
+
 async function updateMaxMinRange(index, input, value) {
     drawResponse(index);
 
@@ -526,17 +559,13 @@ async function updateMaxMinRange(index, input, value) {
         return;
     }
     
-    var list1 = document.getElementById('m' + index);
     var note1 = document.getElementById('n' + index);
+    var curve1 = document.getElementById('c' + index);
     var note = note1.value;
-
-    var channel = 1;
-    if (list1.value != '0') {
-        channel = list1.value;
-    }
+    var power = curve1.value;
     
-    console.log(input, value);
-    var message = [0x6D, 0x4D, index - 1, value];
+    value = value / 8;
+    var message = [0x6D, 0x4D, index - 1, value, power];
 
     if (input.id.endsWith('-1')) {
         message[1] = 0x6D;
