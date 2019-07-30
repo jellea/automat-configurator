@@ -206,6 +206,21 @@ function playNote(dur, velo){
     output.playNote(1, 1, {duration: dur, rawVelocity:true, velocity: velo})
 }
 
+function getTwoByteVal(array, index){
+    var val1 = array[index];
+    var val2 = array[index + 1];
+    
+    return (val2 << 7) | val1;
+}
+
+function setTwoByteVal(array, index, value){
+    var val1 = (value & 0x3F80) >> 7;
+    var val2 = value & 0x7f;
+    
+    array[index] = val2;
+    array[index + 1] = val1;
+}
+
 function sysexListener(e) {
     console.log(e);
     if (e.data[1] == 0 && e.data[2] == 0x21 && e.data[3] == 0x3D &&
@@ -272,8 +287,8 @@ function showSysexConfig(configData){
     if(configData[offset] == 0x76 && configData[offset + 1] == 0x6C &&
        configData[offset + 2] == 0x74 && configData[offset + 3] == 0x79) {
         offset += 4;
-        veloData = configData.slice(offset, offset + (4 * numPins));
-        offset += 4 * numPins;
+        veloData = configData.slice(offset, offset + (6 * numPins));
+        offset += 6 * numPins;
         console.log('have veloData');
     }
 
@@ -299,8 +314,8 @@ function showSysexConfig(configData){
             displayData += "    channel: " + nvData[i];
             displayData += "    note: " + nvData[i + numPins];
             displayData += "    program: " + veloData[i];
-            displayData += "    msMin: " + veloData[i + numPins];
-            displayData += "    msMax: " + veloData[i + numPins + numPins];
+            displayData += "    msMin: " + getTwoByteVal(veloData, (i * 2) + numPins);
+            displayData += "    msMax: " + getTwoByteVal(veloData, (i * 2) + (numPins * 3));
             if (gateData) {
                 displayData += "    gate: " + gateData[i];
             }
@@ -313,11 +328,11 @@ function showSysexConfig(configData){
 
             note1.value = nvData[i + numPins];
             list1.value = nvData[i];
-            curve1.value = veloData[i + numPins + numPins + numPins];
-            jsr.setValue(0, veloData[i + numPins] * 8);
-            jsr.setValue(1, veloData[i + numPins + numPins] * 8);
+            curve1.value = veloData[i + (numPins * 5)];
+            jsr.setValue(0, getTwoByteVal(veloData, (i * 2) + numPins));
+            jsr.setValue(1, getTwoByteVal(veloData, (i * 2) + (numPins * 3)));
             // need to set this again in case the range was inconsistent with the first set
-            jsr.setValue(0, veloData[i + numPins] * 8);
+            jsr.setValue(0, getTwoByteVal(veloData, (i * 2) + numPins));
         }
         
         for(var i = 12; i > numPins; --i) {
@@ -346,7 +361,7 @@ function getConfigDataFromForm() {
         numPins = 6;
     }
     
-    var configData = new Uint8Array(12 + (numPins * 6));
+    var configData = new Uint8Array(12 + (numPins * 8));
 
     var header1 = new Uint8Array([0x70,0x69,0x6E,0x73]);
     var header2 = new Uint8Array([0x76,0x6C,0x74,0x79]);
@@ -367,11 +382,14 @@ function getConfigDataFromForm() {
         j = i + 8;
         configData[j] = list1.value;
         configData[j + numPins] = note1.value;
-        j = i + 12 + (numPins * 2);
-        configData[j] = 0;
-        configData[j + numPins] = range1.value / 8;
-        configData[j + numPins + numPins] = range2.value / 8;
-        configData[j + numPins + numPins + numPins] = curve1.value;
+        j = 12 + (numPins * 2);
+        configData[i + j] = 0;
+        j += numPins;
+        setTwoByteVal(configData, (i * 2) + j, range1.value);
+        j += numPins * 2;
+        setTwoByteVal(configData, (i * 2) + j, range2.value);
+        j += numPins * 2;
+        configData[i + j] = curve1.value;
     }
 
     return configData;
@@ -539,8 +557,9 @@ function changeCurve(index) {
     var note = note1.value;
     var power = curve1.value;
     
-    var value = max_range.value / 8;
-    var message = [0x6D, 0x4D, index - 1, value, power];
+    var value1 = (max_range.value & 0x3F80) >> 7;
+    var value2 = max_range.value & 0x7f;
+    var message = [0x6D, 0x4D, index - 1, value1, value2, power];
     
     if (timeoutId != undefined) {
         clearTimeout(timeoutId);
@@ -564,8 +583,7 @@ async function updateMaxMinRange(index, input, value) {
     var note = note1.value;
     var power = curve1.value;
     
-    value = value / 8;
-    var message = [0x6D, 0x4D, index - 1, value, power];
+    var message = [0x6D, 0x4D, index - 1, value >> 7, value & 0x07F, power];
 
     if (input.id.endsWith('-1')) {
         message[1] = 0x6D;
