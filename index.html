@@ -32,7 +32,7 @@
     <hr>
     <h2>output settings</h2>
 
-    <p>Change the behavior of your automat here.</br>Calibrate the velocity range for each output. Set the first handle on the slider for quietest sound and the second for the loudest.</br> To use note on/off without velocity put both handles in the rightmost position.</br>Upload settings with "Write config".</p>
+    <p>Change the behavior of your automat here.</br>Calibrate the velocity range for each output.</br>Set the first handle on the slider for quietest sound and the second for the loudest.</br> To use note on/off without velocity put both handles in the leftmost position with the values 0-0.</br></br>Upload the configuration to your automat with pressing "Write config"</br><b>PLEASE ONLY DO THAT AFTER FINISHING THE CONFIGURATION FOR ALL OUTPUTS</b>.</p>
     <button class="bb" onclick="readVersion()">Read version</button>
     <button class="bb" onclick="readSysex()">Read config</button>
     <button class="bb" id="save1" disabled onclick="writeSysex(getConfigDataFromForm())">Write config</button>
@@ -49,7 +49,7 @@
         <table class="config__table" style="width:100%; margin-bottom:50px;" align="left" cellpadding="0" cellspacing="0">
                 <tr>
                     <th>Output</th>
-                    <th style="text-align: center;">Velocity Range</th>
+                    <th style="text-align: center;">Gate-Time in Milliseconds</th>
                     <th>Midi Channel</th>
                     <th>Note</th>
                     <th>Curve</th>
