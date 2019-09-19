@@ -194,3 +194,46 @@ table.config__table td {
 #sysex_config {
   color: red;
 }
+
+#when-connected {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+#when-connected.connected {
+  opacity: 1;
+  pointer-events: all;
+}
+
+button.step {
+  width: 35px;
+  height: 35px;
+  border: 3px solid #222;
+  display: inline-block;
+  margin: 6px 6px 0 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 5px;
+}
+.step.on {
+  background-color: lightblue;
+}
+.step.accent {
+  background-color: blue;
+}
+
+.step.playhead {
+  background-color: tomato;
+}
+
+.bpminput {
+  border: 3px solid #121212;
+  font-family: Lelo-Regular;
+  font-size: 18px;
+  padding: 0.35em;
+  margin-top: 3px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  width: 4em;
+}

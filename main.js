@@ -3,6 +3,7 @@ var input = undefined
 var currentConfig = undefined
 var timeoutId = undefined
 var updatingUIFromConfig = false
+var notes = []
 
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -168,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
 
+
 function connect (){
   if (WebMidi.enabled) {
     WebMidi.disable();
@@ -180,9 +182,25 @@ function connect (){
       output = WebMidi.getOutputByName("dadamachines automat");
       input = WebMidi.getInputByName("dadamachines automat");
 
+      WebMidi.addListener("disconnected", function(){
+        conne.innerText = "automat not connected, please accept web midi and connect automat";
+        conne.style.color = "#222";
+        var whencon = document.getElementById("when-connected")
+        whencon.className = ""
+        var recon = document.getElementById("reconbut")
+        recon.style = ""
+        if(app){
+            app.stop();
+        }
+      })
+
       if (output && input) {
                  conne.innerText = "automat connected";
                  conne.style.color = "#47b535";
+                 var whencon = document.getElementById("when-connected")
+                 whencon.className = "connected"
+                 var recon = document.getElementById("reconbut")
+                 recon.style = "display:none"
                  readVersion();
                  readSysex();
       } else {
@@ -196,7 +214,16 @@ function connect (){
   }, true);
 }
 
-connect()
+var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+if (isChrome) {
+    connect()
+} else {
+    var conne = document.getElementById("connected")
+
+    conne.innerText = "please open this page in Google Chrome or Chromium (because of web midi support)";
+    conne.style.color = "red";
+}
 
 function changeProgram(num){
   output.sendProgramChange(num);
@@ -323,6 +350,7 @@ function showSysexConfig(configData){
 
             var list1 = document.getElementById('m' + (i + 1));
             var note1 = document.getElementById('n' + (i + 1));
+            notes[i] = nvData[i + numPins];
             var curve1 = document.getElementById('c' + (i + 1));
             var jsr = jsrArray[i];
 
@@ -403,6 +431,10 @@ function writeSysex(configData){
         arrayOut.set(configData, preArray.length);
 
         output.sendSysex([0, 0x21, 0x3D], Array.from(arrayOut));
+    }
+    for(i=0;i<12;i++){
+        var note = document.getElementById('n' + (i + 1));
+        notes[i] = note.value
     }
 }
 
@@ -598,3 +630,4 @@ async function updateMaxMinRange(index, input, value) {
                                   output.sendSysex([0, 0x21, 0x3D], message);
                                   timeoutId = undefined;} , 100);
  }
+
