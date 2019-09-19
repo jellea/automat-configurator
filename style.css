@@ -216,14 +216,20 @@ button.step {
   background-color: white;
   border-radius: 5px;
 }
-.step.on {
+
+.step:nth-child(4n-3) {
+    background-color: #e1e1e1e;
+}
+
+.step:nth-child(1n).on {
   background-color: lightblue;
 }
-.step.accent {
+
+.step:nth-child(1n).accent {
   background-color: blue;
 }
 
-.step.playhead {
+.step:nth-child(1n).playhead {
   background-color: tomato;
 }
 
