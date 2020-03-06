@@ -1,8 +1,8 @@
 body {
   padding: 0;
   margin: 0;
-  background-color: #fff;
-  color: #121212;
+  background-color: #1E222B;
+  color: #fff;
   font-family: "Lelo-Regular", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
   font-weight: 400;
 }
@@ -222,11 +222,11 @@ button.step {
 }
 
 .step:nth-child(1n).on {
-  background-color: lightblue;
+  background-color: #9297A8;
 }
 
 .step:nth-child(1n).accent {
-  background-color: blue;
+  background-color: #9B81BC;
 }
 
 .step:nth-child(1n).playhead {
